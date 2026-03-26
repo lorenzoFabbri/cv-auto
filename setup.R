@@ -1,7 +1,9 @@
 # Run once to bootstrap the project environment.
 # After this, use renv::restore() to reproduce it on any machine.
 
-if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+if (!requireNamespace("renv", quietly = TRUE)) {
+  install.packages("renv", repos = "https://cloud.r-project.org")
+}
 renv::init(bare = TRUE)
 
 pkgs <- c(

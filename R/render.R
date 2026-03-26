@@ -5,11 +5,6 @@ library(stringr)
 # Date helpers
 # ---------------------------------------------------------------------------
 
-#' Format an ORCID date string to "Mon YYYY" or plain "YYYY"
-#'
-#' @param d Character scalar as returned by orcidtr (e.g. "2022-06" or "2022").
-#'   NA or empty string is treated as an open-ended / current position.
-#' @return A human-readable date string.
 format_date <- function(d) {
   if (is.na(d) || d == "") return("Present")
   parts <- str_split(as.character(d), "-")[[1]]
@@ -25,36 +20,34 @@ format_date <- function(d) {
   year
 }
 
-#' Format a start/end pair as "Mon YYYY -- Mon YYYY" (or "-- Present")
-#'
-#' @param start Character scalar; passed to `format_date()`.
-#' @param end   Character scalar; passed to `format_date()`.
-#' @return A date-range string.
 format_date_range <- function(start, end) {
   s <- format_date(start)
   e <- format_date(end)
   if (s == e) s else paste0(s, " -- ", e)
 }
 
+# Sort a data.table by a date column (year prefix), most recent first
+sort_by_year_desc <- function(dt, col) {
+  dt[, .y := suppressWarnings(as.integer(str_extract(as.character(get(col)), "^\\d{4}")))]
+  dt <- dt[order(-.y, na.last = TRUE)]
+  dt[, .y := NULL]
+  dt
+}
+
 # ---------------------------------------------------------------------------
 # Affiliation sections
 # ---------------------------------------------------------------------------
 
-#' Render affiliation records (employment, education, invited, distinctions…)
+#' Render affiliation records (employment, education, invited, distinctions...)
 #'
-#' Writes pandoc markdown to stdout (consumed by `cat()` inside a knitr chunk).
-#' Expected columns from orcidtr: organization, department, role, start_date,
-#' end_date, city, region, country.
-#'
-#' @param data    data.table returned by an orcidtr affiliation function.
-#' @param show_dept Logical; whether to include the department column.
-#' @param reverse  Logical; whether to reverse row order (most-recent first).
-#' @return Invisible NULL (side-effect: markdown written to stdout).
-render_affiliations <- function(data, show_dept = TRUE, reverse = TRUE) {
+#' @param data      data.table returned by an orcidtr affiliation function.
+#' @param show_dept Logical; include department column.
+#' @param hide_end  Logical; suppress end date (useful for awards/distinctions).
+render_affiliations <- function(data, show_dept = TRUE, hide_end = FALSE) {
   if (is.null(data) || nrow(data) == 0) return(invisible(NULL))
 
   dt <- as.data.table(data)
-  if (reverse) dt <- dt[rev(seq_len(nrow(dt)))]
+  dt <- sort_by_year_desc(dt, "start_date")
 
   lines <- vapply(seq_len(nrow(dt)), function(i) {
     row  <- dt[i]
@@ -64,7 +57,10 @@ render_affiliations <- function(data, show_dept = TRUE, reverse = TRUE) {
       row$department else ""
     loc_parts <- c(row$city, row$country)
     loc       <- paste(loc_parts[!is.na(loc_parts) & loc_parts != ""], collapse = ", ")
-    dates     <- format_date_range(row$start_date, row$end_date)
+    dates     <- if (hide_end)
+      format_date(row$start_date)
+    else
+      format_date_range(row$start_date, row$end_date)
 
     org_line <- paste(
       c(
@@ -75,10 +71,12 @@ render_affiliations <- function(data, show_dept = TRUE, reverse = TRUE) {
       collapse = " | "
     )
 
-    glue("**{role}** [{dates}]{{.cv-date}}\n\n{org_line}\n")
+    # Use \ line break so role+org stay in the same paragraph (tight spacing),
+    # while entries are separated by a blank line (paragraph break).
+    glue("**{role}** {dates}\\\n{org_line}\n")
   }, character(1))
 
-  cat(paste(lines, collapse = "\n"), "\n")
+  cat(paste(lines, collapse = "\n\n"), "\n")
 }
 
 # ---------------------------------------------------------------------------
@@ -87,17 +85,12 @@ render_affiliations <- function(data, show_dept = TRUE, reverse = TRUE) {
 
 #' Render funding / grants records
 #'
-#' Expected columns from orcidtr: title, type, organization, start_date,
-#' end_date, amount, currency.
-#'
-#' @param data    data.table returned by `orcid_fundings()`.
-#' @param reverse Logical; most-recent first.
-#' @return Invisible NULL (side-effect: markdown written to stdout).
-render_fundings <- function(data, reverse = TRUE) {
+#' @param data data.table returned by `orcid_fundings()`.
+render_fundings <- function(data) {
   if (is.null(data) || nrow(data) == 0) return(invisible(NULL))
 
   dt <- as.data.table(data)
-  if (reverse) dt <- dt[rev(seq_len(nrow(dt)))]
+  dt <- sort_by_year_desc(dt, "start_date")
 
   lines <- vapply(seq_len(nrow(dt)), function(i) {
     row   <- dt[i]
@@ -112,10 +105,10 @@ render_fundings <- function(data, reverse = TRUE) {
       )
     }
 
-    glue("**{title}**{amount_str} [{dates}]{{.cv-date}}\n\n*{org}*\n")
+    glue("**{title}**{amount_str} {dates}\\\n*{org}*\n")
   }, character(1))
 
-  cat(paste(lines, collapse = "\n"), "\n")
+  cat(paste(lines, collapse = "\n\n"), "\n")
 }
 
 # ---------------------------------------------------------------------------
@@ -123,18 +116,11 @@ render_fundings <- function(data, reverse = TRUE) {
 # ---------------------------------------------------------------------------
 
 #' Highlight a surname in an author string with markdown bold
-#'
-#' @param author_str Character scalar; a comma-separated author list.
-#' @param pattern    Regex pattern matching the surname to bold.
-#' @return Modified author string with the matching author in `**...**`.
 highlight_author <- function(author_str, pattern = "Fabbri") {
   str_replace_all(author_str, paste0("(\\b", pattern, "\\b[^,;]*)"), "**\\1**")
 }
 
-#' Format a CrossRef author list-column entry into "Family Initials, …"
-#'
-#' @param authors_nested A list-column element (data.frame) from rcrossref.
-#' @return A character scalar of comma-separated abbreviated author names.
+#' Format a CrossRef author list-column entry into "Family Initials, ..."
 format_author_list <- function(authors_nested) {
   if (is.null(authors_nested) || length(authors_nested) == 0) return("")
   au <- tryCatch(as.data.frame(authors_nested), error = function(e) NULL)
@@ -148,22 +134,19 @@ format_author_list <- function(authors_nested) {
   paste(names_vec, collapse = ", ")
 }
 
-#' Render a publications list enriched with CrossRef metadata
+#' Render publications list enriched with CrossRef metadata
 #'
-#' Fetches full citation data (author list, volume, issue, pages) from
-#' CrossRef for entries that carry a DOI; falls back to ORCID-only data
-#' for entries without one.  Outputs a numbered markdown list.
-#'
-#' @param works_dt      data.table of works from `orcid_works()`.
+#' @param works_dt       data.table of works from `orcid_works()`.
 #' @param highlight_name Surname to bold in author lists.
-#' @param fetch_crossref Logical; set FALSE to skip the CrossRef API call.
-#' @return Invisible NULL (side-effect: markdown written to stdout).
+#' @param fetch_crossref Logical; set FALSE to skip CrossRef.
 render_publications <- function(works_dt,
                                 highlight_name = "Fabbri",
                                 fetch_crossref = TRUE) {
   if (is.null(works_dt) || nrow(works_dt) == 0) return(invisible(NULL))
 
-  dt      <- as.data.table(works_dt)
+  dt <- as.data.table(works_dt)
+  # Normalize DOIs to lowercase for reliable matching
+  dt[, doi := tolower(trimws(doi))]
   has_doi <- !is.na(dt$doi) & dt$doi != ""
   enriched <- dt
 
@@ -173,18 +156,28 @@ render_publications <- function(works_dt,
       error = function(e) NULL
     )
     if (!is.null(cr)) {
-      cr_dt <- as.data.table(cr)
-      setnames(
-        cr_dt,
-        intersect(names(cr_dt), "container.title"),
-        "journal_cr"
+      # Use base merge to preserve list-columns (e.g. author)
+      cr_df <- as.data.frame(cr)
+      cr_df$doi <- tolower(trimws(cr_df$doi))
+      if ("container.title" %in% names(cr_df)) {
+        names(cr_df)[names(cr_df) == "container.title"] <- "journal_cr"
+      }
+      enriched <- merge(
+        as.data.frame(dt), cr_df,
+        by = "doi", all.x = TRUE, suffixes = c("", "_cr")
       )
-      enriched <- merge(dt, cr_dt, by = "doi", all.x = TRUE, suffixes = c("", "_cr"))
     }
   }
 
+  # Sort most recent first
+  enriched$.pub_year <- suppressWarnings(
+    as.integer(str_extract(as.character(enriched$publication_date), "^\\d{4}"))
+  )
+  enriched <- enriched[order(-enriched$.pub_year, na.last = TRUE), ]
+  enriched$.pub_year <- NULL
+
   lines <- vapply(seq_len(nrow(enriched)), function(i) {
-    row <- enriched[i]
+    row <- enriched[i, ]
 
     title   <- if (!is.na(row$title)) str_squish(row$title) else "(no title)"
     authors <- ""
@@ -196,7 +189,7 @@ render_publications <- function(works_dt,
     journal <- ""
     if ("journal_cr" %in% names(row) && !is.na(row$journal_cr)) {
       journal <- row$journal_cr
-    } else if (!is.na(row$journal)) {
+    } else if ("journal" %in% names(row) && !is.na(row$journal)) {
       journal <- row$journal
     }
 
@@ -212,7 +205,7 @@ render_publications <- function(works_dt,
       if ("page"  %in% names(row) && !is.na(row$page))  vol_str <- paste0(vol_str, ":", row$page)
     }
 
-    doi_str <- if (!is.na(row$doi) && row$doi != "")
+    doi_str <- if ("doi" %in% names(row) && !is.na(row$doi) && row$doi != "")
       glue("[doi:{row$doi}](https://doi.org/{row$doi})") else ""
 
     parts <- c(
@@ -230,23 +223,18 @@ render_publications <- function(works_dt,
 }
 
 # ---------------------------------------------------------------------------
-# Talks / Conferences / Posters
+# Talks / Conferences / Posters / Software
 # ---------------------------------------------------------------------------
 
-#' Render talks, conference papers, or posters from ORCID works
-#'
-#' Works are expected to have type in
-#' `c("lecture-speech", "conference-paper", "conference-poster")`.
-#' The `journal` column is used as the venue/conference name.
+#' Render talks, conference papers, posters, or software from ORCID works
 #'
 #' @param works_dt data.table filtered from `orcid_works()`.
-#' @param reverse  Logical; most-recent first.
-#' @return Invisible NULL (side-effect: markdown written to stdout).
-render_talks <- function(works_dt, reverse = TRUE) {
+#' @param number   Logical; prefix each entry with a number.
+render_talks <- function(works_dt, number = FALSE) {
   if (is.null(works_dt) || nrow(works_dt) == 0) return(invisible(NULL))
 
   dt <- as.data.table(works_dt)
-  if (reverse) dt <- dt[rev(seq_len(nrow(dt)))]
+  dt <- sort_by_year_desc(dt, "publication_date")
 
   lines <- vapply(seq_len(nrow(dt)), function(i) {
     row   <- dt[i]
@@ -265,10 +253,14 @@ render_talks <- function(works_dt, reverse = TRUE) {
       glue(" [[link]]({row$url})") else ""
 
     conf_str <- paste(c(if (nchar(conf) > 0) conf, year), collapse = ", ")
-    glue("**{title}**{url_str}\n\n{type_label} | {conf_str}\n")
+    glue("**{title}**{url_str}\\\n{type_label} | {conf_str}\n")
   }, character(1))
 
-  cat(paste(lines, collapse = "\n"), "\n")
+  if (number) {
+    cat(paste(paste0(seq_along(lines), ". ", lines), collapse = "\n\n"), "\n")
+  } else {
+    cat(paste(lines, collapse = "\n\n"), "\n")
+  }
 }
 
 # ---------------------------------------------------------------------------
@@ -276,15 +268,10 @@ render_talks <- function(works_dt, reverse = TRUE) {
 # ---------------------------------------------------------------------------
 
 #' Render professional memberships as a bullet list
-#'
-#' @param data    data.table returned by `orcid_memberships()`.
-#' @param reverse Logical; reverse row order.
-#' @return Invisible NULL (side-effect: markdown written to stdout).
-render_memberships <- function(data, reverse = FALSE) {
+render_memberships <- function(data) {
   if (is.null(data) || nrow(data) == 0) return(invisible(NULL))
 
   dt <- as.data.table(data)
-  if (reverse) dt <- dt[rev(seq_len(nrow(dt)))]
 
   lines <- vapply(seq_len(nrow(dt)), function(i) {
     row  <- dt[i]

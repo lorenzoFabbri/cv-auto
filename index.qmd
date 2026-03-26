@@ -9,8 +9,10 @@ cv-location: "Barcelona, Spain"
 ---
 
 ```{r setup}
+#| results: asis
 source("R/data.R")
 source("R/render.R")
+knitr::opts_chunk$set(results = "asis")
 ```
 
 ::: {.content-visible when-format="html"}
@@ -50,7 +52,7 @@ render_fundings(cv_data$fundings)
 ## Honors and Awards
 
 ```{r}
-render_affiliations(cv_data$distinctions, show_dept = FALSE)
+render_affiliations(cv_data$distinctions, show_dept = FALSE, hide_end = TRUE)
 ```
 
 ## Publications
@@ -82,7 +84,7 @@ render_talks(talks)
 ## Posters
 
 ```{r}
-render_talks(posters)
+render_talks(posters, number = TRUE)
 ```
 
 ## Continuing Education

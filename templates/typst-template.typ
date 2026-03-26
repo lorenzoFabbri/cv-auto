@@ -1,51 +1,17 @@
-// Modern academic CV template for Quarto + Typst
+// Academic CV template for Quarto + Typst
 
 #let accent  = rgb("#1a3a5c")
 #let muted   = rgb("#6b7280")
-#let divider = rgb("#d1d5db")
-
-// Reusable CV entry block
-#let cv-entry(
-  role:     "",
-  org:      "",
-  location: "",
-  dates:    "",
-  details:  none,
-) = {
-  block(below: 0.6em)[
-    #grid(
-      columns: (1fr, auto),
-      gutter: 4pt,
-      [
-        #text(weight: "semibold")[#role] \
-        #text(style: "italic", fill: muted)[
-          #org#if location != "" [ | #location]
-        ]
-      ],
-      align(right + top)[
-        #text(size: 8.5pt, fill: muted)[#dates]
-      ]
-    )
-    #if details != none {
-      v(2pt)
-      text(size: 9.5pt)[#details]
-    }
-  ]
-}
 
 // Section header with ruled line
 #let cv-section(title) = {
-  v(0.8em)
-  stack(
-    dir: ttb,
-    spacing: 3pt,
-    text(size: 9.5pt, weight: "bold", fill: accent)[#upper(title)],
-    line(length: 100%, stroke: 0.6pt + accent),
-  )
-  v(0.4em)
+  v(1.2em)
+  text(size: 9pt, weight: "bold", fill: accent)[#upper(title)]
+  v(3pt)
+  line(length: 100%, stroke: 0.5pt + accent)
+  v(0.5em)
 }
 
-// Re-export for use in show file
 #let cv-template(
   name:     "",
   tagline:  "",
@@ -60,40 +26,46 @@
     paper:  "a4",
     margin: (x: 1.8cm, top: 1.5cm, bottom: 1.5cm),
     footer: context [
-      #set text(size: 8pt, fill: muted)
+      #set text(size: 7.5pt, fill: muted)
       #align(center)[#name --- CV --- #counter(page).display("1 of 1", both: true)]
     ]
   )
 
-  set text(font: ("Noto Sans", "Source Sans Pro", "Helvetica Neue", "Arial"), size: 10pt)
-  set par(justify: false, leading: 0.55em)
+  set text(font: ("Helvetica Neue", "Arial"), size: 10pt)
+  // spacing controls the gap between paragraphs (= between CV entries)
+  set par(justify: false, leading: 0.55em, spacing: 0.9em)
 
-  // Heading styles
+  // Section headers (level 2)
   show heading.where(level: 2): it => cv-section(it.body)
+
+  // Subsection headers (level 3)
   show heading.where(level: 3): it => {
-    v(0.4em)
-    text(size: 9.5pt, style: "italic", fill: muted)[#it.body]
-    v(0.2em)
+    v(0.5em)
+    text(size: 8.5pt, weight: "bold", fill: accent)[#upper(it.body)]
+    v(2pt)
+    line(length: 100%, stroke: 0.3pt + muted)
+    v(0.35em)
   }
 
-  // Style .cv-date spans (produced by render.R via [text]{.cv-date})
-  // These come through as emphasis in Typst; handled via padding
   show strong: it => text(weight: "semibold")[#it.body]
 
   // ---- Header ----
+  // Clean up \@ escaping that Pandoc inserts for @ in Typst strings
+  let clean-email = email.replace("\\@", "@")
+
   grid(
     columns: (1fr, auto),
     gutter: 12pt,
     [
-      #text(size: 24pt, weight: "bold", fill: accent)[#name]
+      #text(size: 22pt, weight: "bold", fill: accent)[#name]
       #if tagline != "" {
         linebreak()
         text(size: 10pt, fill: muted)[#tagline]
       }
     ],
     align(right + horizon)[
-      #set text(size: 8.5pt)
-      #if email    != "" [#link("mailto:" + email)[#email] \ ]
+      #set text(size: 8.5pt, fill: muted)
+      #if clean-email != "" [#link("mailto:" + clean-email)[#clean-email] \ ]
       #if website  != "" [#link("https://" + website)[#website] \ ]
       #if github   != "" [#link("https://github.com/" + github)[github.com/#github] \ ]
       #if orcid    != "" [#link("https://orcid.org/" + orcid)[orcid.org/#orcid] \ ]
@@ -101,7 +73,7 @@
     ]
   )
   v(4pt)
-  line(length: 100%, stroke: 1pt + accent)
+  line(length: 100%, stroke: 0.8pt + accent)
   v(6pt)
 
   doc
