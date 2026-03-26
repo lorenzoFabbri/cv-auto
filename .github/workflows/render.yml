@@ -40,6 +40,9 @@ jobs:
       - name: Check formatting with air
         run: air format --check R/
 
+      - name: Install lintr
+        run: Rscript -e "install.packages('lintr')"
+
       - name: Lint with lintr
         run: Rscript -e "lintr::lint_dir('R/')"
 
