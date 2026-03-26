@@ -1,0 +1,106 @@
+---
+title: "Lorenzo Fabbri"
+cv-tagline: "PhD Candidate in Epidemiology"
+cv-email: "lorenzo.fabbri@isglobal.org"
+cv-website: "lorenzofabbri.github.io/epilorenzo"
+cv-github: "lorenzoFabbri"
+cv-orcid: "0000-0003-3031-322X"
+cv-location: "Barcelona, Spain"
+---
+
+```{r setup}
+source("R/data.R")
+source("R/render.R")
+```
+
+::: {.content-visible when-format="html"}
+<div class="cv-download-links">
+[Download PDF](index.pdf){.btn} [Download DOCX](index.docx){.btn}
+</div>
+:::
+
+## Research Interests
+
+Epidemiology, causal inference, and open-source software.
+
+## Academic Appointments
+
+```{r}
+render_affiliations(cv_data$employments)
+```
+
+## Education
+
+```{r}
+render_affiliations(cv_data$educations)
+```
+
+## Research Visits
+
+```{r}
+render_affiliations(cv_data$invited)
+```
+
+## Grants and Fellowships
+
+```{r}
+render_fundings(cv_data$fundings)
+```
+
+## Honors and Awards
+
+```{r}
+render_affiliations(cv_data$distinctions, show_dept = FALSE)
+```
+
+## Publications
+
+### Journal Articles
+
+```{r}
+render_publications(journal_articles, highlight_name = "Fabbri")
+```
+
+### Preprints
+
+```{r}
+render_publications(preprints, highlight_name = "Fabbri")
+```
+
+### Software
+
+```{r}
+render_talks(software)
+```
+
+## Conferences, Workshops, and Talks
+
+```{r}
+render_talks(talks)
+```
+
+## Posters
+
+```{r}
+render_talks(posters)
+```
+
+## Continuing Education
+
+```{r}
+render_affiliations(cv_data$qualifications)
+```
+
+## Service
+
+### Referee
+
+```{r}
+render_affiliations(cv_data$services, show_dept = FALSE)
+```
+
+### Memberships
+
+```{r}
+render_memberships(cv_data$memberships)
+```

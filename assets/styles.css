@@ -1,0 +1,126 @@
+/* =========================================================
+   CV Styles — clean academic look for HTML output
+   ========================================================= */
+
+:root {
+  --accent:    #1a3a5c;
+  --muted:     #6b7280;
+  --divider:   #d1d5db;
+  --body-font: "Source Sans 3", "Source Sans Pro", system-ui, sans-serif;
+  --mono-font: "JetBrains Mono", "Fira Code", monospace;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&display=swap');
+
+body {
+  font-family: var(--body-font);
+  font-size: 15px;
+  color: #1f2937;
+  line-height: 1.5;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+/* ---- Name / title ---- */
+h1.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.1rem;
+  border-bottom: none;
+}
+
+/* ---- Section headers ---- */
+h2 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  border-bottom: 1.5px solid var(--accent);
+  padding-bottom: 2px;
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
+}
+
+h3 {
+  font-size: 0.9rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--muted);
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
+  border-bottom: none;
+}
+
+/* ---- CV entry dates ---- */
+.cv-date {
+  float: right;
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-left: 1rem;
+}
+
+/* ---- Paragraph spacing inside entries ---- */
+p {
+  margin: 0 0 0.6rem 0;
+}
+
+/* ---- Download buttons ---- */
+.cv-download-links {
+  margin: 0.5rem 0 1.5rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.3rem 0.9rem;
+  border: 1.5px solid var(--accent);
+  border-radius: 4px;
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-right: 0.5rem;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn:hover {
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* ---- Links ---- */
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ---- Lists ---- */
+ol, ul {
+  padding-left: 1.4rem;
+  margin: 0 0 0.6rem 0;
+}
+
+li {
+  margin-bottom: 0.4rem;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+    margin: 1rem auto;
+  }
+
+  .cv-date {
+    float: none;
+    display: block;
+    font-size: 0.78rem;
+  }
+}

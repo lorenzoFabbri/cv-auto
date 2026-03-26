@@ -1,0 +1,28 @@
+# R
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+# renv
+renv/library/
+renv/local/
+renv/cellar/
+renv/lock/
+renv/python/
+renv/staging/
+renv/.python/
+renv/activate.R
+.Rprofile
+
+# Quarto output (committed via CI, not locally)
+docs/
+
+# Rendered outputs
+*.pdf
+*.docx
+
+# OS
+.DS_Store
+Thumbs.db

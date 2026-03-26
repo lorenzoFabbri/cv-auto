@@ -1,0 +1,25 @@
+project:
+  output-dir: docs
+
+execute:
+  echo: false
+  warning: false
+  message: false
+
+format:
+  html:
+    toc: false
+    page-layout: article
+    css: assets/styles.css
+    theme: none
+    self-contained: false
+    html-math-method: plain
+    grid:
+      body-width: 800px
+  typst:
+    template-partials:
+      - templates/typst-show.typ
+      - templates/typst-template.typ
+  docx:
+    reference-doc: templates/reference.docx
+    highlight-style: none
