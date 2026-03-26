@@ -6,7 +6,9 @@ library(stringr)
 # ---------------------------------------------------------------------------
 
 format_date <- function(d) {
-  if (is.na(d) || d == "") return("Present")
+  if (is.na(d) || d == "") {
+    return("Present")
+  }
   parts <- str_split(as.character(d), "-")[[1]]
   year <- parts[1]
   if (length(parts) >= 2 && !is.na(parts[2]) && parts[2] != "0") {
@@ -59,7 +61,9 @@ sort_by_year_desc <- function(dt, col) {
 #' @param show_dept Logical; include department column.
 #' @param hide_end  Logical; suppress end date (useful for awards/distinctions).
 render_affiliations <- function(data, show_dept = TRUE, hide_end = FALSE) {
-  if (is.null(data) || nrow(data) == 0) return(invisible(NULL))
+  if (is.null(data) || nrow(data) == 0) {
+    return(invisible(NULL))
+  }
 
   dt <- as.data.table(data)
   dt <- sort_by_year_desc(dt, "start_date")
@@ -70,15 +74,21 @@ render_affiliations <- function(data, show_dept = TRUE, hide_end = FALSE) {
       row <- dt[i]
       role <- if (!is.na(row$role) && row$role != "") row$role else ""
       org <- if (!is.na(row$organization)) row$organization else ""
-      dept <- if (show_dept && !is.na(row$department) && row$department != "")
-        row$department else ""
+      dept <- if (show_dept && !is.na(row$department) && row$department != "") {
+        row$department
+      } else {
+        ""
+      }
       loc_parts <- c(row$city, row$country)
       loc <- paste(
         loc_parts[!is.na(loc_parts) & loc_parts != ""],
         collapse = ", "
       )
-      dates <- if (hide_end) format_date(row$start_date) else
+      dates <- if (hide_end) {
+        format_date(row$start_date)
+      } else {
         format_date_range(row$start_date, row$end_date)
+      }
 
       org_line <- paste(
         c(
@@ -107,7 +117,9 @@ render_affiliations <- function(data, show_dept = TRUE, hide_end = FALSE) {
 #'
 #' @param data data.table returned by `orcid_fundings()`.
 render_fundings <- function(data) {
-  if (is.null(data) || nrow(data) == 0) return(invisible(NULL))
+  if (is.null(data) || nrow(data) == 0) {
+    return(invisible(NULL))
+  }
 
   dt <- as.data.table(data)
   dt <- sort_by_year_desc(dt, "start_date")
@@ -146,9 +158,13 @@ highlight_author <- function(author_str, pattern = "Fabbri") {
 
 #' Format a CrossRef author list-column entry into "Family Initials, ..."
 format_author_list <- function(authors_nested) {
-  if (is.null(authors_nested) || length(authors_nested) == 0) return("")
+  if (is.null(authors_nested) || length(authors_nested) == 0) {
+    return("")
+  }
   au <- tryCatch(as.data.frame(authors_nested), error = function(e) NULL)
-  if (is.null(au) || nrow(au) == 0) return("")
+  if (is.null(au) || nrow(au) == 0) {
+    return("")
+  }
 
   names_vec <- mapply(
     function(given, family) {
@@ -172,7 +188,9 @@ render_publications <- function(
   highlight_name = "Fabbri",
   fetch_crossref = TRUE
 ) {
-  if (is.null(works_dt) || nrow(works_dt) == 0) return(invisible(NULL))
+  if (is.null(works_dt) || nrow(works_dt) == 0) {
+    return(invisible(NULL))
+  }
 
   dt <- as.data.table(works_dt)
   # Normalize DOIs to lowercase for reliable matching
@@ -230,29 +248,43 @@ render_publications <- function(
 
       pub_date <- if (
         "published.print" %in% names(row) && !is.na(row$published.print)
-      )
-        row$published.print else row$publication_date
-      year <- if (!is.na(pub_date) && pub_date != "")
-        str_extract(as.character(pub_date), "^\\d{4}") else ""
+      ) {
+        row$published.print
+      } else {
+        row$publication_date
+      }
+      year <- if (!is.na(pub_date) && pub_date != "") {
+        str_extract(as.character(pub_date), "^\\d{4}")
+      } else {
+        ""
+      }
 
       vol_str <- ""
       if ("volume" %in% names(row) && !is.na(row$volume)) {
         vol_str <- row$volume
-        if ("issue" %in% names(row) && !is.na(row$issue))
+        if ("issue" %in% names(row) && !is.na(row$issue)) {
           vol_str <- paste0(vol_str, "(", row$issue, ")")
-        if ("page" %in% names(row) && !is.na(row$page))
+        }
+        if ("page" %in% names(row) && !is.na(row$page)) {
           vol_str <- paste0(vol_str, ":", row$page)
+        }
       }
 
-      doi_str <- if ("doi" %in% names(row) && !is.na(row$doi) && row$doi != "")
-        glue("[doi:{row$doi}](https://doi.org/{row$doi})") else ""
+      doi_str <- if (
+        "doi" %in% names(row) && !is.na(row$doi) && row$doi != ""
+      ) {
+        glue("[doi:{row$doi}](https://doi.org/{row$doi})")
+      } else {
+        ""
+      }
 
       parts <- c(
         if (nchar(authors) > 0) authors,
         glue("{title}."),
         if (nchar(journal) > 0) paste0("*", journal, ".*"),
-        if (nchar(year) > 0 || nchar(vol_str) > 0)
-          paste0(year, if (nchar(vol_str) > 0) paste0(";", vol_str), "."),
+        if (nchar(year) > 0 || nchar(vol_str) > 0) {
+          paste0(year, if (nchar(vol_str) > 0) paste0(";", vol_str), ".")
+        },
         doi_str
       )
       paste(parts[nchar(parts) > 0], collapse = " ")
@@ -272,7 +304,9 @@ render_publications <- function(
 #' @param works_dt data.table filtered from `orcid_works()`.
 #' @param number   Logical; prefix each entry with a number.
 render_talks <- function(works_dt, number = FALSE) {
-  if (is.null(works_dt) || nrow(works_dt) == 0) return(invisible(NULL))
+  if (is.null(works_dt) || nrow(works_dt) == 0) {
+    return(invisible(NULL))
+  }
 
   dt <- as.data.table(works_dt)
   dt <- sort_by_year_desc(dt, "publication_date")
@@ -283,8 +317,11 @@ render_talks <- function(works_dt, number = FALSE) {
       row <- dt[i]
       title <- if (!is.na(row$title)) row$title else "(no title)"
       conf <- if (!is.na(row$journal) && row$journal != "") row$journal else ""
-      year <- if (!is.na(row$publication_date))
-        str_extract(as.character(row$publication_date), "^\\d{4}") else ""
+      year <- if (!is.na(row$publication_date)) {
+        str_extract(as.character(row$publication_date), "^\\d{4}")
+      } else {
+        ""
+      }
       type_label <- switch(
         row$type,
         "lecture-speech" = "Invited talk",
@@ -293,8 +330,11 @@ render_talks <- function(works_dt, number = FALSE) {
         "software" = "Software",
         "Talk"
       )
-      url_str <- if (!is.na(row$url) && row$url != "")
-        glue(" [[link]]({row$url})") else ""
+      url_str <- if (!is.na(row$url) && row$url != "") {
+        glue(" [[link]]({row$url})")
+      } else {
+        ""
+      }
 
       conf_str <- paste(c(if (nchar(conf) > 0) conf, year), collapse = ", ")
       glue("**{title}**{url_str}\\\n{type_label} | {conf_str}\n")
@@ -315,7 +355,9 @@ render_talks <- function(works_dt, number = FALSE) {
 
 #' Render professional memberships as a bullet list
 render_memberships <- function(data) {
-  if (is.null(data) || nrow(data) == 0) return(invisible(NULL))
+  if (is.null(data) || nrow(data) == 0) {
+    return(invisible(NULL))
+  }
 
   dt <- as.data.table(data)
 
