@@ -1,6 +1,14 @@
 library(glue)
 library(stringr)
 
+# Markdown hard line break: backslash + newline.
+# Defined as a constant because glue() strips a trailing `\` before `\n`.
+BR <- "\\"
+
+# Inline raw Typst that pushes subsequent content to the right.
+# Silently ignored in non-Typst outputs (HTML, DOCX).
+HFILL <- "`#h(1fr)`{=typst}"
+
 # ---------------------------------------------------------------------------
 # Date helpers
 # ---------------------------------------------------------------------------
@@ -60,7 +68,13 @@ sort_by_year_desc <- function(dt, col) {
 #' @param data      data.table returned by an orcidtr affiliation function.
 #' @param show_dept Logical; include department column.
 #' @param hide_end  Logical; suppress end date (useful for awards/distinctions).
-render_affiliations <- function(data, show_dept = TRUE, hide_end = FALSE) {
+#' @param details   Named list of extra detail strings keyed by ORCID put_code.
+render_affiliations <- function(
+  data,
+  show_dept = TRUE,
+  hide_end = FALSE,
+  details = NULL
+) {
   if (is.null(data) || nrow(data) == 0) {
     return(invisible(NULL))
   }
@@ -90,18 +104,27 @@ render_affiliations <- function(data, show_dept = TRUE, hide_end = FALSE) {
         format_date_range(row$start_date, row$end_date)
       }
 
-      org_line <- paste(
-        c(
-          if (nchar(org) > 0) paste0("*", org, "*"),
-          if (nchar(dept) > 0) dept,
-          if (nchar(loc) > 0) loc
-        ),
-        collapse = " | "
+      org_parts <- c(
+        if (nchar(org) > 0) paste0("*", org, "*"),
+        if (nchar(dept) > 0) dept
       )
+      org_str <- paste(org_parts[nchar(org_parts) > 0], collapse = " | ")
 
-      # Use \ line break so role+org stay in the same paragraph (tight spacing),
-      # while entries are separated by a blank line (paragraph break).
-      glue("**{role}** {dates}\\\n{org_line}\n")
+      loc_right <- if (nchar(loc) > 0) {
+        glue(" {HFILL} {loc}")
+      } else {
+        ""
+      }
+
+      detail_line <- ""
+      if (!is.null(details) && row$put_code %in% names(details)) {
+        detail_line <- glue("{BR}\n{details[[row$put_code]]}")
+      }
+
+      glue(
+        "**{role}** {HFILL} {dates}{BR}\n",
+        "{org_str}{loc_right}{detail_line}\n"
+      )
     },
     character(1)
   )
@@ -115,7 +138,7 @@ render_affiliations <- function(data, show_dept = TRUE, hide_end = FALSE) {
 
 #' Render funding / grants records
 #'
-#' @param data data.table returned by `orcid_fundings()`.
+#' @param data data.table returned by `orcid_funding()`.
 render_fundings <- function(data) {
   if (is.null(data) || nrow(data) == 0) {
     return(invisible(NULL))
@@ -139,7 +162,10 @@ render_fundings <- function(data) {
         )
       }
 
-      glue("**{title}**{amount_str} {dates}\\\n*{org}*\n")
+      glue(
+        "**{title}**{amount_str} {HFILL} {dates}{BR}\n",
+        "*{org}*\n"
+      )
     },
     character(1)
   )
@@ -193,18 +219,16 @@ render_publications <- function(
   }
 
   dt <- as.data.table(works_dt)
-  # Normalize DOIs to lowercase for reliable matching
   dt[, doi := tolower(trimws(doi))]
   has_doi <- !is.na(dt$doi) & dt$doi != ""
   enriched <- dt
 
   if (fetch_crossref && any(has_doi)) {
     cr <- tryCatch(
-      rcrossref::cr_works(dois = dt$doi[has_doi], .progress = FALSE)$data,
+      rcrossref::cr_works(dois = dt$doi[has_doi])$data,
       error = function(e) NULL
     )
     if (!is.null(cr)) {
-      # Use base merge to preserve list-columns (e.g. author)
       cr_df <- as.data.frame(cr)
       cr_df$doi <- tolower(trimws(cr_df$doi))
       if ("container.title" %in% names(cr_df)) {
@@ -220,7 +244,6 @@ render_publications <- function(
     }
   }
 
-  # Sort most recent first
   enriched$.pub_year <- suppressWarnings(
     as.integer(str_extract(as.character(enriched$publication_date), "^\\d{4}"))
   )
@@ -279,7 +302,7 @@ render_publications <- function(
       }
 
       parts <- c(
-        if (nchar(authors) > 0) authors,
+        if (nchar(authors) > 0) paste0(authors, "."),
         glue("{title}."),
         if (nchar(journal) > 0) paste0("*", journal, ".*"),
         if (nchar(year) > 0 || nchar(vol_str) > 0) {
@@ -337,7 +360,7 @@ render_talks <- function(works_dt, number = FALSE) {
       }
 
       conf_str <- paste(c(if (nchar(conf) > 0) conf, year), collapse = ", ")
-      glue("**{title}**{url_str}\\\n{type_label} | {conf_str}\n")
+      glue("**{title}**{url_str}{BR}\n{type_label} | {conf_str}\n")
     },
     character(1)
   )

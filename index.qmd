@@ -1,11 +1,14 @@
 ---
 title: "Lorenzo Fabbri"
-cv-tagline: "PhD Candidate in Epidemiology"
-cv-email: "lorenzo.fabbri@isglobal.org"
+cv-tagline: "Postdoctoral Researcher in Epidemiology"
+cv-email: "lorenzo.fabbri92sm@gmail.com"
+cv-location: "Madrid, Spain"
 cv-website: "lorenzofabbri.github.io/epilorenzo"
-cv-github: "lorenzoFabbri"
 cv-orcid: "0000-0003-3031-322X"
-cv-location: "Barcelona, Spain"
+cv-scholar: "QbPv1H0AAAAJ"
+cv-github: "lorenzoFabbri"
+cv-linkedin: "lorenzo-fabbri-303185383"
+cv-bluesky: "epilorenzo.bsky.social"
 ---
 
 ```{r setup}
@@ -23,7 +26,7 @@ knitr::opts_chunk$set(results = "asis")
 
 ## Research Interests
 
-Epidemiology, causal inference, and open-source software.
+Cancer epidemiology, causal inference, and evidence triangulation.
 
 ## Academic Appointments
 
@@ -34,7 +37,42 @@ render_affiliations(cv_data$employments)
 ## Education
 
 ```{r}
-render_affiliations(cv_data$educations)
+edu_details <- list(
+  # PG Certificate in Public Health, LSHTM
+  "26799263" = "Basic Epidemiology (PHM101)",
+  # Graduate Certificate, Open University
+  "23612750" = "Mathematical Statistics (M347): 91/100 With Distinction",
+  # PhD Programme in Biomedicine, UPF
+  "16645010" = paste(
+    "Thesis: Early Life Exposure to Environmental Chemicals and",
+    "Neurodevelopment through Childhood and Adolescence.",
+    "Supervisor: Prof. Martine Vrijheid"
+  ),
+  # M.Sc. in Quantitative and Computational Biology, Trento
+  "9421733" = paste(
+    "Thesis (FBK, Trento): Machine Learning for Predictive Drug Induced",
+    "Hepatotoxicity. Supervised by: Dr. Cesare Furlanello, Dr. Marco Chierici,",
+    "Prof. Enrico Domenici.",
+    "Internship (HITS, Heidelberg): Machine and Deep Learning for Predictive",
+    "Unbinding Kinetics of Kinases. Supervised by: Prof. Rebecca Wade,",
+    "Dr. Daria Kokh, Prof. Raffaello Potestio.",
+    "Final mark: 110/110 With Honors"
+  ),
+  # M.Sc. Student in Computational Science, USI
+  "16695943" = paste(
+    "Project (USI, Lugano): Investigation by Computational Techniques of",
+    "Channelopathies Related to Sodium Channels.",
+    "Supervised by: Prof. Vittorio Limongelli, Prof. Daniele Di Marino"
+  ),
+  # B.Sc. in Biotechnology, Parma
+  "16695935" = paste(
+    "Thesis (RWTH, Aachen): Whole Body PBPK Modeling of Valproic Acid.",
+    "Supervised by: Prof. Elena Maestri, Prof. Lars M. Blank, Dr. Henrik Cordes.",
+    "Final mark: 103/110"
+  )
+)
+
+render_affiliations(cv_data$educations, details = edu_details)
 ```
 
 ## Research Visits
@@ -63,11 +101,11 @@ render_affiliations(cv_data$distinctions, show_dept = FALSE, hide_end = TRUE)
 render_publications(journal_articles, highlight_name = "Fabbri")
 ```
 
-### Preprints
+### Articles Under Review
 
-```{r}
-render_publications(preprints, highlight_name = "Fabbri")
-```
+- Distinct tumor microenvironment signatures predict outcomes and correlate
+  with PD-L1 in HPV-independent vulvar cancer.
+- Cohort Profile Update: The Human Early Life Exposome (HELIX) Cohort.
 
 ### Software
 
@@ -75,11 +113,21 @@ render_publications(preprints, highlight_name = "Fabbri")
 render_talks(software)
 ```
 
-## Conferences, Workshops, and Talks
+**causatr: Causal Effects Estimation** [[link]](https://github.com/etverse/causatr)\
+Software | In development
 
-```{r}
-render_talks(talks)
-```
+**negatr: Negative Control Analysis** [[link]](https://github.com/etverse/negatr)\
+Software | In development
+
+**manuscripts: Scientific Manuscript Template** [[link]](https://github.com/lorenzoFabbri/manuscripts)\
+Software | In development
+
+## Talks
+
+See [github.com/lorenzoFabbri/talks](https://github.com/lorenzoFabbri/talks) for slides and materials.
+
+**Transparent causal inference for observational epidemiology**\
+Invited talk | Colicino Group, Icahn School of Medicine at Mount Sinai (via Zoom), Jan 2025
 
 ## Posters
 
@@ -95,7 +143,11 @@ render_affiliations(cv_data$qualifications)
 
 ## Service
 
-### Referee
+### Peer Review
+
+- *Scientific Reports* (1 review)
+
+### Working Groups
 
 ```{r}
 render_affiliations(cv_data$services, show_dept = FALSE)
@@ -106,3 +158,16 @@ render_affiliations(cv_data$services, show_dept = FALSE)
 ```{r}
 render_memberships(cv_data$memberships)
 ```
+
+## Skills
+
+| Category | Details |
+|:---------|:--------|
+| Languages | Italian (native), English (C1, IELTS 7.0), Spanish (basic) |
+| Programming | R, Python, MATLAB, C |
+| Markup | LaTeX, Quarto/RMarkdown |
+| Tools | git, SLURM, High Performance Scientific Computing |
+
+::: {.content-visible when-format="html"}
+<p class="cv-updated">Last updated: `r format(Sys.Date(), "%B %Y")`</p>
+:::

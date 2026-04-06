@@ -54,14 +54,6 @@ h3 {
   border-bottom: none;
 }
 
-/* ---- CV entry dates ---- */
-.cv-date {
-  float: right;
-  font-size: 0.82rem;
-  color: var(--muted);
-  margin-left: 1rem;
-}
-
 /* ---- Paragraph spacing inside entries ---- */
 p {
   margin: 0 0 0.6rem 0;
@@ -111,16 +103,43 @@ li {
   margin-bottom: 0.4rem;
 }
 
+/* ---- Tables ---- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.4rem 0 0.8rem;
+  font-size: 0.9rem;
+}
+
+th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent);
+  border-bottom: 1.5px solid var(--accent);
+  padding: 0.3rem 0.6rem;
+}
+
+td {
+  padding: 0.3rem 0.6rem;
+  border-bottom: 1px solid var(--divider);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---- Last updated ---- */
+.cv-updated {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: center;
+}
+
 /* ---- Responsive ---- */
 @media (max-width: 600px) {
   body {
     font-size: 14px;
     margin: 1rem auto;
-  }
-
-  .cv-date {
-    float: none;
-    display: block;
-    font-size: 0.78rem;
   }
 }
