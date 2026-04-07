@@ -18,6 +18,14 @@ source("R/render.R")
 knitr::opts_chunk$set(results = "asis")
 ```
 
+::: {.content-visible unless-format="typst"}
+::: {.cv-header}
+*{{< meta cv-tagline >}}*
+
+[{{< meta cv-email >}}](mailto:{{< meta cv-email >}}) | {{< meta cv-location >}} | [{{< meta cv-website >}}](https://{{< meta cv-website >}}) | [ORCID](https://orcid.org/{{< meta cv-orcid >}}) | [Google Scholar](https://scholar.google.com/citations?user={{< meta cv-scholar >}}) | [GitHub](https://github.com/{{< meta cv-github >}}) | [LinkedIn](https://linkedin.com/in/{{< meta cv-linkedin >}}) | [Bluesky](https://bsky.app/profile/{{< meta cv-bluesky >}})
+:::
+:::
+
 ::: {.content-visible when-format="html"}
 <div class="cv-download-links">
 [Download PDF](index.pdf){.btn} [Download DOCX](index.docx){.btn}

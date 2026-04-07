@@ -9,6 +9,10 @@ BR <- "\\"
 # Silently ignored in non-Typst outputs (HTML, DOCX).
 HFILL <- "`#h(1fr)`{=typst}"
 
+# Raw-HTML wrapper that right-aligns its content (ignored in Typst / DOCX).
+HTML_R <- '`<span class="cv-right">`{=html}'
+HTML_R_END <- '`</span>`{=html}'
+
 # ---------------------------------------------------------------------------
 # Date helpers
 # ---------------------------------------------------------------------------
@@ -111,7 +115,7 @@ render_affiliations <- function(
       org_str <- paste(org_parts[nchar(org_parts) > 0], collapse = " | ")
 
       loc_right <- if (nchar(loc) > 0) {
-        glue(" {HFILL} {loc}")
+        glue(" {HFILL} {HTML_R}{loc}{HTML_R_END}")
       } else {
         ""
       }
@@ -122,7 +126,7 @@ render_affiliations <- function(
       }
 
       glue(
-        "**{role}** {HFILL} {dates}{BR}\n",
+        "**{role}** {HFILL} {HTML_R}{dates}{HTML_R_END}{BR}\n",
         "{org_str}{loc_right}{detail_line}\n"
       )
     },
@@ -163,7 +167,7 @@ render_fundings <- function(data) {
       }
 
       glue(
-        "**{title}**{amount_str} {HFILL} {dates}{BR}\n",
+        "**{title}**{amount_str} {HFILL} {HTML_R}{dates}{HTML_R_END}{BR}\n",
         "*{org}*\n"
       )
     },

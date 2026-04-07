@@ -31,6 +31,23 @@ h1.title {
   border-bottom: none;
 }
 
+/* ---- Header: tagline + contact info ---- */
+.cv-header {
+  border-bottom: 1.5px solid var(--accent);
+  padding-bottom: 0.6rem;
+  margin-bottom: 1.2rem;
+}
+
+.cv-header p:first-child {
+  color: var(--muted);
+  margin-bottom: 0.3rem;
+}
+
+.cv-header p:last-child {
+  font-size: 0.85rem;
+  margin-bottom: 0;
+}
+
 /* ---- Section headers ---- */
 h2 {
   font-size: 0.8rem;
@@ -126,6 +143,12 @@ td {
 
 tr:last-child td {
   border-bottom: none;
+}
+
+/* ---- Right-aligned dates & locations ---- */
+.cv-right {
+  float: right;
+  clear: right;
 }
 
 /* ---- Last updated ---- */
