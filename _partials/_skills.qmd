@@ -1,0 +1,9 @@
+## Skills
+
+| Category | Details |
+|:---------|:--------|
+| Languages | Italian (native), English (C1, IELTS 7.0), Spanish (basic) |
+| Programming | R, Python, MATLAB, C |
+| Markup | LaTeX, Quarto/RMarkdown |
+| Tools | git, SLURM, High Performance Scientific Computing |
+| Methods | causal inference (g-methods, negative controls, trial emulation, Mendelian randomization), longitudinal/panel data analysis, survival analysis, multi-omic integration |

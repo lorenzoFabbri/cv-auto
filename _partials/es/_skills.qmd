@@ -1,0 +1,9 @@
+## Competencias
+
+| Categoría | Detalles |
+|:----------|:---------|
+| Idiomas | italiano (lengua materna), inglés (C1, IELTS 7.0), español (básico) |
+| Programación | R, Python, MATLAB, C |
+| Marcado | LaTeX, Quarto/RMarkdown |
+| Herramientas | git, SLURM, computación científica de altas prestaciones |
+| Métodos | inferencia causal (g-methods, controles negativos, emulación de ensayos clínicos, aleatorización mendeliana), análisis longitudinal y de panel, análisis de supervivencia, integración multi-ómica |

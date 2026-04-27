@@ -1,0 +1,12 @@
+## Education
+
+```{r}
+keep_roles <- c(
+  "PhD Programme in Biomedicine",
+  "M.Sc. in Quantitative and Computational Biology",
+  "B.Sc. in Biotechnology",
+  "Graduate Certificate in Theoretical Statistics and Probability",
+  "Diploma de Experto Universitario en Métodos Avanzados de Estadística Aplicada"
+)
+render_affiliations(cv_data$educations[role %in% keep_roles])
+```

@@ -1,0 +1,3 @@
+## Profile
+
+Quantitative scientist building causal-inference pipelines on large-scale observational health data. PhD-trained in causal inference, with applied focus on longitudinal cohorts and multi-omic integration. Applied g-methods, negative controls, trial emulation, and Mendelian randomization in international cohort studies (HELIX, ATHLETE). Author of CRAN R packages (forrest, orcidtr) and lead developer of the **etverse** ecosystem for transparent causal inference.

@@ -1,0 +1,7 @@
+::: {.content-visible unless-format="typst"}
+::: {.cv-header}
+*{{< meta cv-tagline >}}*
+
+[{{< meta cv-email >}}](mailto:{{< meta cv-email >}}) | {{< meta cv-location >}} | [{{< meta cv-website >}}](https://{{< meta cv-website >}}) | [ORCID](https://orcid.org/{{< meta cv-orcid >}}) | [Google Scholar](https://scholar.google.com/citations?user={{< meta cv-scholar >}}) | [GitHub](https://github.com/{{< meta cv-github >}}) | [LinkedIn](https://linkedin.com/in/{{< meta cv-linkedin >}}) | [Bluesky](https://bsky.app/profile/{{< meta cv-bluesky >}})
+:::
+:::

@@ -1,0 +1,3 @@
+## Perfil
+
+Investigador cuantitativo especializado en el desarrollo de pipelines reproducibles de inferencia causal sobre datos observacionales de salud a gran escala. Formación doctoral en inferencia causal, con enfoque aplicado en cohortes longitudinales e integración multi-ómica. Con experiencia aplicada en g-methods, controles negativos, emulación de ensayos clínicos y aleatorización mendeliana en cohortes internacionales (HELIX, ATHLETE). Autor de paquetes de R en CRAN (forrest, orcidtr) y desarrollador principal del ecosistema **etverse** para inferencia causal reproducible y transparente.

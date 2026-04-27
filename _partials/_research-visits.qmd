@@ -1,0 +1,5 @@
+## Research Visits
+
+```{r}
+render_affiliations(cv_data$invited)
+```

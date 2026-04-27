@@ -1,0 +1,17 @@
+## Service
+
+### Peer Review
+
+- *Scientific Reports* (1 review)
+
+### Working Groups
+
+```{r}
+render_affiliations(cv_data$services, show_dept = FALSE)
+```
+
+### Memberships
+
+```{r}
+render_memberships(cv_data$memberships)
+```

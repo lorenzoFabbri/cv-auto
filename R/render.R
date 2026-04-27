@@ -14,32 +14,72 @@ HTML_R <- '`<span class="cv-right">`{=html}'
 HTML_R_END <- '`</span>`{=html}'
 
 # ---------------------------------------------------------------------------
+# Localization
+# ---------------------------------------------------------------------------
+
+cv_lang <- function() {
+  lang <- getOption("cv.lang", default = NULL)
+  if (is.null(lang) || !nzchar(lang)) lang <- Sys.getenv("CV_LANG", unset = "en")
+  if (!lang %in% c("en", "es")) "en" else lang
+}
+
+MONTHS <- list(
+  en = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
+  es = c("ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic")
+)
+
+PRESENT <- list(en = "Present", es = "Actual")
+
+TYPE_LABELS <- list(
+  en = list(
+    "lecture-speech" = "Invited talk",
+    "conference-paper" = "Contributed talk",
+    "conference-poster" = "Poster",
+    "software" = "Software",
+    .default = "Talk"
+  ),
+  es = list(
+    "lecture-speech" = "Charla invitada",
+    "conference-paper" = "Comunicación oral",
+    "conference-poster" = "Póster",
+    "software" = "Software",
+    .default = "Charla"
+  )
+)
+
+type_label <- function(type) {
+  labels <- TYPE_LABELS[[cv_lang()]]
+  if (!is.null(labels[[type]])) labels[[type]] else labels$.default
+}
+
+FULL_MONTHS <- list(
+  en = c("January", "February", "March", "April", "May", "June",
+         "July", "August", "September", "October", "November", "December"),
+  es = c("enero", "febrero", "marzo", "abril", "mayo", "junio",
+         "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre")
+)
+
+# Today's month + year in the active CV language ("April 2026" / "abril 2026")
+format_today <- function() {
+  m <- as.integer(format(Sys.Date(), "%m"))
+  y <- format(Sys.Date(), "%Y")
+  paste(FULL_MONTHS[[cv_lang()]][m], y)
+}
+
+# ---------------------------------------------------------------------------
 # Date helpers
 # ---------------------------------------------------------------------------
 
 format_date <- function(d) {
+  lang <- cv_lang()
   if (is.na(d) || d == "") {
-    return("Present")
+    return(PRESENT[[lang]])
   }
   parts <- str_split(as.character(d), "-")[[1]]
   year <- parts[1]
   if (length(parts) >= 2 && !is.na(parts[2]) && parts[2] != "0") {
-    months <- c(
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    )
     m <- suppressWarnings(as.integer(parts[2]))
-    if (!is.na(m) && m >= 1 && m <= 12) return(paste(months[m], year))
+    if (!is.na(m) && m >= 1 && m <= 12) return(paste(MONTHS[[lang]][m], year))
   }
   year
 }
@@ -198,8 +238,11 @@ format_author_list <- function(authors_nested) {
 
   names_vec <- mapply(
     function(given, family) {
-      initials <- paste0(str_extract_all(given, "\\b[A-Z]")[[1]], collapse = "")
-      paste0(family, " ", initials)
+      initials <- paste0(
+        str_extract_all(given, "\\b[[:upper:]]")[[1]],
+        collapse = ""
+      )
+      if (nzchar(initials)) paste0(family, " ", initials) else family
     },
     au$given,
     au$family
@@ -349,14 +392,7 @@ render_talks <- function(works_dt, number = FALSE) {
       } else {
         ""
       }
-      type_label <- switch(
-        row$type,
-        "lecture-speech" = "Invited talk",
-        "conference-paper" = "Contributed talk",
-        "conference-poster" = "Poster",
-        "software" = "Software",
-        "Talk"
-      )
+      label <- type_label(row$type)
       url_str <- if (!is.na(row$url) && row$url != "") {
         glue(" [[link]]({row$url})")
       } else {
@@ -364,7 +400,7 @@ render_talks <- function(works_dt, number = FALSE) {
       }
 
       conf_str <- paste(c(if (nchar(conf) > 0) conf, year), collapse = ", ")
-      glue("**{title}**{url_str}{BR}\n{type_label} | {conf_str}\n")
+      glue("**{title}**{url_str}{BR}\n{label} | {conf_str}\n")
     },
     character(1)
   )

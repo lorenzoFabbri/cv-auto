@@ -1,0 +1,5 @@
+## Grants and Fellowships
+
+```{r}
+render_fundings(cv_data$fundings)
+```

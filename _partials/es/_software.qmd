@@ -1,0 +1,9 @@
+## Software
+
+**etverse: ecosistema modular de R para inferencia causal transparente** [[github.com/etverse]](https://github.com/etverse)\
+Software | En desarrollo\
+Incluye: **causatr** (estimación de efectos causales), **negatr** (análisis de controles negativos) y otros paquetes de métodos.
+
+```{r}
+render_talks(software)
+```

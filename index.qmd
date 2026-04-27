@@ -1,181 +1,37 @@
 ---
-title: "Lorenzo Fabbri"
-cv-tagline: "Postdoctoral Researcher in Epidemiology"
-cv-email: "lorenzo.fabbri92sm@gmail.com"
-cv-location: "Madrid, Spain"
-cv-website: "lorenzofabbri.github.io/epilorenzo"
-cv-orcid: "0000-0003-3031-322X"
-cv-scholar: "QbPv1H0AAAAJ"
-cv-github: "lorenzoFabbri"
-cv-linkedin: "lorenzo-fabbri-303185383"
-cv-bluesky: "epilorenzo.bsky.social"
+title: "Lorenzo Fabbri — CV"
+format:
+  html:
+    toc: false
+    page-layout: article
+    css: assets/styles.css
+    theme: none
+    grid:
+      body-width: 800px
 ---
 
-```{r setup}
-#| results: asis
-source("R/data.R")
-source("R/render.R")
-knitr::opts_chunk$set(results = "asis")
-```
-
-::: {.content-visible unless-format="typst"}
 ::: {.cv-header}
-*{{< meta cv-tagline >}}*
+*Postdoctoral Researcher in Epidemiology · Madrid, Spain*
 
-[{{< meta cv-email >}}](mailto:{{< meta cv-email >}}) | {{< meta cv-location >}} | [{{< meta cv-website >}}](https://{{< meta cv-website >}}) | [ORCID](https://orcid.org/{{< meta cv-orcid >}}) | [Google Scholar](https://scholar.google.com/citations?user={{< meta cv-scholar >}}) | [GitHub](https://github.com/{{< meta cv-github >}}) | [LinkedIn](https://linkedin.com/in/{{< meta cv-linkedin >}}) | [Bluesky](https://bsky.app/profile/{{< meta cv-bluesky >}})
-:::
-:::
-
-::: {.content-visible when-format="html"}
-<div class="cv-download-links">
-[Download PDF](index.pdf){.btn} [Download DOCX](index.docx){.btn}
-</div>
+[lorenzo.fabbri92sm@gmail.com](mailto:lorenzo.fabbri92sm@gmail.com) | [website](https://lorenzofabbri.github.io/epilorenzo) | [ORCID](https://orcid.org/0000-0003-3031-322X) | [Google Scholar](https://scholar.google.com/citations?user=QbPv1H0AAAAJ) | [GitHub](https://github.com/lorenzoFabbri) | [LinkedIn](https://linkedin.com/in/lorenzo-fabbri-303185383) | [Bluesky](https://bsky.app/profile/epilorenzo.bsky.social)
 :::
 
-## Research Interests
+This page links to four variants of my CV. Pick the one that fits the role and language you need.
 
-Cancer epidemiology, causal inference, and evidence triangulation.
+## Academic CV
 
-## Academic Appointments
+For research / faculty / postdoc applications.
 
-```{r}
-render_affiliations(cv_data$employments)
-```
+- English — [HTML](cv-academic.html) · [PDF](cv-academic.pdf) · [DOCX](cv-academic.docx)
+- Español — [HTML](cv-academic-es.html) · [PDF](cv-academic-es.pdf) · [DOCX](cv-academic-es.docx)
 
-## Education
+## Industry CV
 
-```{r}
-edu_details <- list(
-  # PG Certificate in Public Health, LSHTM
-  "26799263" = "Basic Epidemiology (PHM101)",
-  # Graduate Certificate, Open University
-  "23612750" = "Mathematical Statistics (M347): 91/100 With Distinction",
-  # PhD Programme in Biomedicine, UPF
-  "16645010" = paste(
-    "Thesis: Early Life Exposure to Environmental Chemicals and",
-    "Neurodevelopment through Childhood and Adolescence.",
-    "Supervisor: Prof. Martine Vrijheid"
-  ),
-  # M.Sc. in Quantitative and Computational Biology, Trento
-  "9421733" = paste(
-    "Thesis (FBK, Trento): Machine Learning for Predictive Drug Induced",
-    "Hepatotoxicity. Supervised by: Dr. Cesare Furlanello, Dr. Marco Chierici,",
-    "Prof. Enrico Domenici.",
-    "Internship (HITS, Heidelberg): Machine and Deep Learning for Predictive",
-    "Unbinding Kinetics of Kinases. Supervised by: Prof. Rebecca Wade,",
-    "Dr. Daria Kokh, Prof. Raffaello Potestio.",
-    "Final mark: 110/110 With Honors"
-  ),
-  # M.Sc. Student in Computational Science, USI
-  "16695943" = paste(
-    "Project (USI, Lugano): Investigation by Computational Techniques of",
-    "Channelopathies Related to Sodium Channels.",
-    "Supervised by: Prof. Vittorio Limongelli, Prof. Daniele Di Marino"
-  ),
-  # B.Sc. in Biotechnology, Parma
-  "16695935" = paste(
-    "Thesis (RWTH, Aachen): Whole Body PBPK Modeling of Valproic Acid.",
-    "Supervised by: Prof. Elena Maestri, Prof. Lars M. Blank, Dr. Henrik Cordes.",
-    "Final mark: 103/110"
-  )
-)
+For data science / quantitative / applied-research roles in industry.
 
-render_affiliations(cv_data$educations, details = edu_details)
-```
+- English — [HTML](cv-industry.html) · [PDF](cv-industry.pdf) · [DOCX](cv-industry.docx)
+- Español — [HTML](cv-industry-es.html) · [PDF](cv-industry-es.pdf) · [DOCX](cv-industry-es.docx)
 
-## Research Visits
-
-```{r}
-render_affiliations(cv_data$invited)
-```
-
-## Grants and Fellowships
-
-```{r}
-render_fundings(cv_data$fundings)
-```
-
-## Honors and Awards
-
-```{r}
-render_affiliations(cv_data$distinctions, show_dept = FALSE, hide_end = TRUE)
-```
-
-## Publications
-
-### Journal Articles
-
-```{r}
-render_publications(journal_articles, highlight_name = "Fabbri")
-```
-
-### Articles Under Review
-
-- Distinct tumor microenvironment signatures predict outcomes and correlate
-  with PD-L1 in HPV-independent vulvar cancer.
-- Cohort Profile Update: The Human Early Life Exposome (HELIX) Cohort.
-
-### Software
-
-```{r}
-render_talks(software)
-```
-
-**causatr: Causal Effects Estimation** [[link]](https://github.com/etverse/causatr)\
-Software | In development
-
-**negatr: Negative Control Analysis** [[link]](https://github.com/etverse/negatr)\
-Software | In development
-
-**manuscripts: Scientific Manuscript Template** [[link]](https://github.com/lorenzoFabbri/manuscripts)\
-Software | In development
-
-## Talks
-
-See [github.com/lorenzoFabbri/talks](https://github.com/lorenzoFabbri/talks) for slides and materials.
-
-**Transparent causal inference for observational epidemiology**\
-Invited talk | Colicino Group, Icahn School of Medicine at Mount Sinai (via Zoom), Jan 2025
-
-## Posters
-
-```{r}
-render_talks(posters, number = TRUE)
-```
-
-## Continuing Education
-
-```{r}
-render_affiliations(cv_data$qualifications)
-```
-
-## Service
-
-### Peer Review
-
-- *Scientific Reports* (1 review)
-
-### Working Groups
-
-```{r}
-render_affiliations(cv_data$services, show_dept = FALSE)
-```
-
-### Memberships
-
-```{r}
-render_memberships(cv_data$memberships)
-```
-
-## Skills
-
-| Category | Details |
-|:---------|:--------|
-| Languages | Italian (native), English (C1, IELTS 7.0), Spanish (basic) |
-| Programming | R, Python, MATLAB, C |
-| Markup | LaTeX, Quarto/RMarkdown |
-| Tools | git, SLURM, High Performance Scientific Computing |
-
-::: {.content-visible when-format="html"}
-<p class="cv-updated">Last updated: `r format(Sys.Date(), "%B %Y")`</p>
+::: {.cv-updated}
+Last updated: `r format(Sys.Date(), "%B %Y")`
 :::

@@ -1,0 +1,13 @@
+## Publicaciones
+
+### Artículos en Revistas
+
+```{r}
+render_publications(journal_articles, highlight_name = "Fabbri")
+```
+
+### Artículos en Revisión
+
+- Distinct tumor microenvironment signatures predict outcomes and correlate
+  with PD-L1 in HPV-independent vulvar cancer.
+- Cohort Profile Update: The Human Early Life Exposome (HELIX) Cohort.

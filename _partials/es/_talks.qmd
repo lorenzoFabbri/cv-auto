@@ -1,0 +1,6 @@
+## Charlas
+
+Las diapositivas y materiales están en [github.com/lorenzoFabbri/talks](https://github.com/lorenzoFabbri/talks).
+
+**Transparent causal inference for observational epidemiology**\
+Charla invitada | Colicino Group, Icahn School of Medicine at Mount Sinai (vía Zoom), ene 2025

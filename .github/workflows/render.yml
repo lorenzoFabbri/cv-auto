@@ -84,8 +84,8 @@ jobs:
         with:
           name: cv-outputs
           path: |
-            docs/index.pdf
-            docs/index.docx
+            docs/cv-*.pdf
+            docs/cv-*.docx
 
   # ── 3. Deploy to GitHub Pages ───────────────────────────────────────────
   deploy:

@@ -35,7 +35,8 @@ cv_data <- list(
   works = safe_fetch(orcid_works, ORCID_ID)
 )
 
-#' Works subsets by type — used directly in index.qmd chunks
+#' Works subsets by type — used directly in CV chunks
 journal_articles <- cv_data$works[type == "journal-article"]
+conference_papers <- cv_data$works[type == "conference-paper"]
 posters <- cv_data$works[type == "conference-poster"]
 software <- cv_data$works[type == "software"]

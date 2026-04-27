@@ -1,0 +1,14 @@
+## Comunicaciones a Congresos
+
+```{r}
+if (nrow(conference_papers) > 0) {
+  cat("### Comunicaciones Orales\n\n")
+  render_talks(conference_papers, number = TRUE)
+  cat("\n\n")
+}
+if (nrow(posters) > 0) {
+  cat("### Pósters\n\n")
+  render_talks(posters, number = TRUE)
+  cat("\n\n")
+}
+```

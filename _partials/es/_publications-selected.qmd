@@ -1,0 +1,11 @@
+## Publicaciones Seleccionadas
+
+```{r}
+ja <- as.data.frame(journal_articles)
+ja$.year <- suppressWarnings(as.integer(substr(as.character(ja$publication_date), 1, 4)))
+top_pubs <- ja[order(-ja$.year), ][seq_len(min(5, nrow(ja))), ]
+top_pubs$.year <- NULL
+render_publications(top_pubs, highlight_name = "Fabbri")
+```
+
+Lista completa disponible en [ORCID](https://orcid.org/0000-0003-3031-322X) y [Google Scholar](https://scholar.google.com/citations?user=QbPv1H0AAAAJ).

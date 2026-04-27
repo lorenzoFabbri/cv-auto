@@ -1,0 +1,41 @@
+## Education
+
+```{r}
+edu_details <- list(
+  # PG Certificate in Public Health, LSHTM
+  "26799263" = "Basic Epidemiology (PHM101)",
+  # Graduate Certificate, Open University
+  "23612750" = "Mathematical Statistics (M347): 91/100 With Distinction",
+  # PhD Programme in Biomedicine, UPF
+  "16645010" = paste(
+    "Thesis: Early Life Exposure to Environmental Chemicals and",
+    "Neurodevelopment through Childhood and Adolescence.",
+    "Supervisor: Prof. Martine Vrijheid"
+  ),
+  # M.Sc. in Quantitative and Computational Biology, Trento
+  "9421733" = paste(
+    "Thesis (FBK, Trento): Machine Learning for Predictive Drug Induced",
+    "Hepatotoxicity. Supervised by: Dr. Cesare Furlanello, Dr. Marco Chierici,",
+    "Prof. Enrico Domenici.",
+    "Internship (HITS, Heidelberg): Machine and Deep Learning for Predictive",
+    "Unbinding Kinetics of Kinases. Supervised by: Prof. Rebecca Wade,",
+    "Dr. Daria Kokh, Prof. Raffaello Potestio.",
+    "Final mark: 110/110 With Honors"
+  ),
+  # M.Sc. Student in Computational Science, USI
+  "16695943" = paste(
+    "Project (USI, Lugano): Investigation by Computational Techniques of",
+    "Channelopathies Related to Sodium Channels.",
+    "Supervised by: Prof. Vittorio Limongelli, Prof. Daniele Di Marino.",
+    "(M.Sc. not completed; transferred to Università degli Studi di Trento.)"
+  ),
+  # B.Sc. in Biotechnology, Parma
+  "16695935" = paste(
+    "Thesis (RWTH, Aachen): Whole Body PBPK Modeling of Valproic Acid.",
+    "Supervised by: Prof. Elena Maestri, Prof. Lars M. Blank, Dr. Henrik Cordes.",
+    "Final mark: 103/110"
+  )
+)
+
+render_affiliations(cv_data$educations, details = edu_details)
+```

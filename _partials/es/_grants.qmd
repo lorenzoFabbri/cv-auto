@@ -1,0 +1,5 @@
+## Becas y Financiación
+
+```{r}
+render_fundings(cv_data$fundings)
+```

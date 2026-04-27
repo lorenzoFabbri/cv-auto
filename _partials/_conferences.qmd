@@ -1,0 +1,14 @@
+## Conference Presentations
+
+```{r}
+if (nrow(conference_papers) > 0) {
+  cat("### Contributed Talks\n\n")
+  render_talks(conference_papers, number = TRUE)
+  cat("\n\n")
+}
+if (nrow(posters) > 0) {
+  cat("### Posters\n\n")
+  render_talks(posters, number = TRUE)
+  cat("\n\n")
+}
+```

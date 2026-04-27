@@ -1,0 +1,5 @@
+## Honors and Awards
+
+```{r}
+render_affiliations(cv_data$distinctions, show_dept = FALSE, hide_end = TRUE)
+```

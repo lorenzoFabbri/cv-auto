@@ -31,3 +31,9 @@ Thumbs.db
 
 /.quarto/
 **/*.quarto_ipynb
+
+# Quarto/knitr transients
+*.knit.md
+_freeze/
+*_cache/
+*_files/

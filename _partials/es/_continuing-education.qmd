@@ -1,0 +1,5 @@
+## Formación Continua
+
+```{r}
+render_affiliations(cv_data$qualifications)
+```

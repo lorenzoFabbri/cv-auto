@@ -1,15 +1,17 @@
 .PHONY: all html pdf docx clean lint format
 
-all: html pdf docx
+all:
+	quarto render
+	rm -rf docs/cv-*_files docs/index_files
 
 html:
-	quarto render index.qmd --to html
+	quarto render --to html
 
 pdf:
-	quarto render index.qmd --to typst
+	quarto render --to typst
 
 docx:
-	quarto render index.qmd --to docx
+	quarto render --to docx
 
 lint:
 	Rscript -e "lintr::lint_dir('R/')"
@@ -18,4 +20,4 @@ format:
 	air format R/
 
 clean:
-	rm -rf docs/index.html docs/index.pdf docs/index.docx docs/index_files
+	rm -rf docs/cv-*.html docs/cv-*.pdf docs/cv-*.docx docs/cv-*_files docs/index.html docs/index_files

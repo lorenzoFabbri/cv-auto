@@ -1,0 +1,7 @@
+```{r setup}
+#| results: asis
+options(cv.lang = rmarkdown::metadata[["lang"]] %||% "en")
+source("R/data.R")
+source("R/render.R")
+knitr::opts_chunk$set(results = "asis")
+```

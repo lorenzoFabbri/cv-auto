@@ -2,6 +2,7 @@
 #import "templates/typst-template.typ": cv-template
 
 #show: cv-template.with(
+  lang:     "$lang$",
   name:     "$title$",
   tagline:  "$cv-tagline$",
   email:    "$cv-email$",

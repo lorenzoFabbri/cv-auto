@@ -1,0 +1,45 @@
+---
+title: "Lorenzo Fabbri"
+lang: en
+cv-tagline: "Postdoctoral Researcher in Epidemiology"
+cv-email: "lorenzo.fabbri92sm@gmail.com"
+cv-location: "Madrid, Spain"
+cv-website: "lorenzofabbri.github.io/epilorenzo"
+cv-orcid: "0000-0003-3031-322X"
+cv-scholar: "QbPv1H0AAAAJ"
+cv-github: "lorenzoFabbri"
+cv-linkedin: "lorenzo-fabbri-303185383"
+cv-bluesky: "epilorenzo.bsky.social"
+---
+
+{{< include _partials/_setup.qmd >}}
+
+{{< include _partials/_header.qmd >}}
+
+{{< include _partials/_research-interests.qmd >}}
+
+{{< include _partials/_appointments.qmd >}}
+
+{{< include _partials/_education.qmd >}}
+
+{{< include _partials/_research-visits.qmd >}}
+
+{{< include _partials/_grants.qmd >}}
+
+{{< include _partials/_honors.qmd >}}
+
+{{< include _partials/_publications.qmd >}}
+
+{{< include _partials/_software.qmd >}}
+
+{{< include _partials/_talks.qmd >}}
+
+{{< include _partials/_conferences.qmd >}}
+
+{{< include _partials/_continuing-education.qmd >}}
+
+{{< include _partials/_service.qmd >}}
+
+{{< include _partials/_skills.qmd >}}
+
+{{< include _partials/_footer.qmd >}}

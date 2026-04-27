@@ -1,0 +1,35 @@
+---
+title: "Lorenzo Fabbri"
+lang: es
+cv-tagline: "Investigador cuantitativo · Inferencia causal y epidemiología aplicada"
+cv-email: "lorenzo.fabbri92sm@gmail.com"
+cv-location: "Madrid, España"
+cv-website: "lorenzofabbri.github.io/epilorenzo"
+cv-orcid: "0000-0003-3031-322X"
+cv-scholar: "QbPv1H0AAAAJ"
+cv-github: "lorenzoFabbri"
+cv-linkedin: "lorenzo-fabbri-303185383"
+cv-bluesky: "epilorenzo.bsky.social"
+---
+
+{{< include _partials/_setup.qmd >}}
+
+{{< include _partials/_header.qmd >}}
+
+{{< include _partials/es/_summary.qmd >}}
+
+{{< include _partials/es/_skills-industry.qmd >}}
+
+{{< include _partials/es/_software.qmd >}}
+
+{{< include _partials/es/_appointments.qmd >}}
+
+{{< include _partials/es/_education-short.qmd >}}
+
+{{< include _partials/es/_publications-selected.qmd >}}
+
+{{< include _partials/es/_honors.qmd >}}
+
+{{< include _partials/es/_continuing-education.qmd >}}
+
+{{< include _partials/es/_footer.qmd >}}

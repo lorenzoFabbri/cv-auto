@@ -1,5 +1,11 @@
 project:
   output-dir: docs
+  render:
+    - cv-academic.qmd
+    - cv-academic-es.qmd
+    - cv-industry.qmd
+    - cv-industry-es.qmd
+    - index.qmd
 
 execute:
   echo: false
@@ -12,7 +18,7 @@ format:
     page-layout: article
     css: assets/styles.css
     theme: none
-    self-contained: false
+    embed-resources: true
     html-math-method: plain
     grid:
       body-width: 800px

@@ -13,6 +13,7 @@
 }
 
 #let cv-template(
+  lang:     "en",
   name:     "",
   tagline:  "",
   email:    "",
@@ -25,6 +26,8 @@
   bluesky:  "",
   doc,
 ) = {
+  let updated-label = if lang == "es" { "Última actualización" } else { "Last updated" }
+
   set page(
     paper:  "a4",
     margin: (x: 1.8cm, top: 1.5cm, bottom: 1.5cm),
@@ -33,7 +36,7 @@
       #align(center)[
         #name --- CV --- #counter(page).display("1 of 1", both: true)
         #h(1em) | #h(1em)
-        Last updated: #datetime.today().display("[month repr:long] [year]")
+        #updated-label: #datetime.today().display("[month repr:long] [year]")
       ]
     ]
   )
