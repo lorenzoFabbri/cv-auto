@@ -19,13 +19,41 @@ HTML_R_END <- '`</span>`{=html}'
 
 cv_lang <- function() {
   lang <- getOption("cv.lang", default = NULL)
-  if (is.null(lang) || !nzchar(lang)) lang <- Sys.getenv("CV_LANG", unset = "en")
+  if (is.null(lang) || !nzchar(lang)) {
+    lang <- Sys.getenv("CV_LANG", unset = "en")
+  }
   if (!lang %in% c("en", "es")) "en" else lang
 }
 
 MONTHS <- list(
-  en = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
-  es = c("ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic")
+  en = c(
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ),
+  es = c(
+    "ene",
+    "feb",
+    "mar",
+    "abr",
+    "may",
+    "jun",
+    "jul",
+    "ago",
+    "sep",
+    "oct",
+    "nov",
+    "dic"
+  )
 )
 
 PRESENT <- list(en = "Present", es = "Actual")
@@ -53,10 +81,34 @@ type_label <- function(type) {
 }
 
 FULL_MONTHS <- list(
-  en = c("January", "February", "March", "April", "May", "June",
-         "July", "August", "September", "October", "November", "December"),
-  es = c("enero", "febrero", "marzo", "abril", "mayo", "junio",
-         "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre")
+  en = c(
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ),
+  es = c(
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre"
+  )
 )
 
 # Today's month + year in the active CV language ("April 2026" / "abril 2026")

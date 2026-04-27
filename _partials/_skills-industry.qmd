@@ -5,5 +5,5 @@
 | Methods | causal inference (g-methods, negative controls, trial emulation, Mendelian randomization), longitudinal/panel data analysis, survival analysis, multi-omic integration, machine learning |
 | Programming | R (advanced; CRAN packages), Python, MATLAB, C |
 | Data & infrastructure | git, GitHub Actions, SLURM, high-performance scientific computing, reproducible pipelines (Quarto, renv, targets) |
-| Markup | LaTeX, Quarto/RMarkdown, Typst |
+| Markup | LaTeX, Quarto/RMarkdown |
 | Languages | Italian (native), English (C1, IELTS 7.0), Spanish (basic) |
