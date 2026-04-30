@@ -28,6 +28,14 @@
 ) = {
   let updated-label = if lang == "es" { "Última actualización" } else { "Last updated" }
 
+  let es-months = ("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre")
+  let today = datetime.today()
+  let formatted-date = if lang == "es" {
+    es-months.at(today.month() - 1) + " " + str(today.year())
+  } else {
+    today.display("[month repr:long] [year]")
+  }
+
   set page(
     paper:  "a4",
     margin: (x: 1.8cm, top: 1.5cm, bottom: 1.5cm),
@@ -36,7 +44,7 @@
       #align(center)[
         #name --- CV --- #counter(page).display("1 of 1", both: true)
         #h(1em) | #h(1em)
-        #updated-label: #datetime.today().display("[month repr:long] [year]")
+        #updated-label: #formatted-date
       ]
     ]
   )

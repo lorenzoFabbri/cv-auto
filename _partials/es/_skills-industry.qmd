@@ -5,5 +5,5 @@
 | Métodos | inferencia causal (g-methods, controles negativos, emulación de ensayos clínicos, aleatorización mendeliana), análisis longitudinal y de panel, análisis de supervivencia, integración multi-ómica, aprendizaje automático |
 | Programación | R (avanzado; paquetes en CRAN), Python, MATLAB, C |
 | Datos e infraestructura | git, GitHub Actions, SLURM, computación científica de altas prestaciones, pipelines reproducibles (Quarto, renv, targets) |
-| Lenguajes de marcado | LaTeX, Quarto/RMarkdown |
+| Marcado | LaTeX, Quarto/RMarkdown |
 | Idiomas | italiano (lengua materna), inglés (C1, IELTS 7.0), español (básico) |
