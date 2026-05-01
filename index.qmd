@@ -1,5 +1,6 @@
 ---
 title: "Lorenzo Fabbri — CV"
+engine: knitr
 format:
   html:
     toc: false
