@@ -3,7 +3,7 @@
 Automated multilingual CV built from
 [ORCID](https://orcid.org/0000-0003-3031-322X)
 data. Renders to HTML, PDF (Typst), and DOCX
-via Quarto, with weekly CI updates deployed
+via Quarto, with monthly CI updates deployed
 to GitHub Pages.
 
 ## Variants
@@ -72,5 +72,5 @@ GitHub Actions (`.github/workflows/render.yml`):
 3. **Deploy** — publishes HTML to GitHub Pages;
    archives PDF/DOCX as workflow artifacts
 
-Runs on push to `main`, weekly (Monday 08:00
-UTC), and manual dispatch.
+Runs on push to `main`, monthly (first Monday
+08:00 UTC), and manual dispatch.

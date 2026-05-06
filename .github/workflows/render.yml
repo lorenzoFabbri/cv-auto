@@ -4,8 +4,8 @@ on:
   push:
     branches: [main]
   schedule:
-    # Every Monday at 08:00 UTC — picks up new ORCID entries automatically
-    - cron: "0 8 * * 1"
+    # First Monday of the month at 08:00 UTC — picks up new ORCID entries automatically
+    - cron: "0 8 1-7 * 1"
   workflow_dispatch:
 
 permissions:
