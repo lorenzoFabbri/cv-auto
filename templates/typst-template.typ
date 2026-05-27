@@ -49,7 +49,7 @@
     ]
   )
 
-  set text(font: ("Helvetica Neue", "Arial"), size: 9.5pt)
+  set text(font: ("Helvetica Neue", "Arial", "Liberation Sans", "Noto Sans"), size: 9.5pt)
   set par(justify: false, leading: 0.55em, spacing: 0.9em)
 
   // Section headers (level 2)

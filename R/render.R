@@ -11,7 +11,7 @@ HFILL <- "`#h(1fr)`{=typst}"
 
 # Raw-HTML wrapper that right-aligns its content (ignored in Typst / DOCX).
 HTML_R <- '`<span class="cv-right">`{=html}'
-HTML_R_END <- '`</span>`{=html}'
+HTML_R_END <- "`</span>`{=html}"
 
 # ---------------------------------------------------------------------------
 # Localization
