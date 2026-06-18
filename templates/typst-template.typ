@@ -49,7 +49,9 @@
     ]
   )
 
-  set text(font: ("Helvetica Neue", "Arial", "Liberation Sans", "Noto Sans"), size: 9.5pt)
+  // Liberation Sans is vendored in fonts/ (see _quarto.yml font-paths) so the CV
+  // renders identically on every platform with no missing-font warnings.
+  set text(font: "Liberation Sans", size: 9.5pt)
   set par(justify: false, leading: 0.55em, spacing: 0.9em)
 
   // Section headers (level 2)
@@ -79,6 +81,11 @@
   // ---- Header ----
   let clean-email = email.replace("\\@", "@")
 
+  // Font Awesome icons (vendored in fonts/) — professional contact icons that
+  // render identically on every platform. Solid = generic icons, Brands = logos.
+  let fa-solid(code) = text(font: "Font Awesome 6 Free", weight: "black", fill: accent)[#str.from-unicode(code)]
+  let fa-brand(code) = text(font: "Font Awesome 6 Brands", fill: accent)[#str.from-unicode(code)]
+
   grid(
     columns: (1fr, auto),
     gutter: 12pt,
@@ -91,14 +98,14 @@
     ],
     align(right + horizon)[
       #set text(size: 8pt, fill: muted)
-      #if clean-email != "" [✉ #link("mailto:" + clean-email)[#clean-email] \ ]
-      #if location != "" [📍 #location \ ]
-      #if website  != "" [🌐 #link("https://" + website)[#website] \ ]
-      #if orcid    != "" [🆔 #link("https://orcid.org/" + orcid)[orcid.org/#orcid] \ ]
-      #if scholar   != "" [🎓 #link("https://scholar.google.com/citations?user=" + scholar)[Google Scholar] \ ]
-      #if github   != "" [💻 #link("https://github.com/" + github)[github.com/#github] \ ]
-      #if linkedin != "" [💼 #link("https://linkedin.com/in/" + linkedin)[LinkedIn] \ ]
-      #if bluesky  != "" [🦋 #link("https://bsky.app/profile/" + bluesky)[Bluesky]]
+      #if clean-email != "" [#fa-solid(0xf0e0)#h(4pt)#link("mailto:" + clean-email)[#clean-email] \ ]
+      #if location != "" [#fa-solid(0xf3c5)#h(4pt)#location \ ]
+      #if website  != "" [#fa-solid(0xf0ac)#h(4pt)#link("https://" + website)[#website] \ ]
+      #if orcid    != "" [#fa-brand(0xf8d2)#h(4pt)#link("https://orcid.org/" + orcid)[orcid.org/#orcid] \ ]
+      #if scholar   != "" [#fa-brand(0xe63b)#h(4pt)#link("https://scholar.google.com/citations?user=" + scholar)[Google Scholar] \ ]
+      #if github   != "" [#fa-brand(0xf09b)#h(4pt)#link("https://github.com/" + github)[github.com/#github] \ ]
+      #if linkedin != "" [#fa-brand(0xf08c)#h(4pt)#link("https://linkedin.com/in/" + linkedin)[LinkedIn] \ ]
+      #if bluesky  != "" [#fa-brand(0xe671)#h(4pt)#link("https://bsky.app/profile/" + bluesky)[Bluesky]]
     ]
   )
   v(4pt)

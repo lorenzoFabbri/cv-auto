@@ -1,5 +1,29 @@
 ## Academic Appointments
 
 ```{r}
-render_affiliations(cv_data$employments)
+emp_details <- list(
+  # CNIO — Postdoctoral Researcher
+  "36898188" = paste(
+    "Genetic and Molecular Epidemiology Group.",
+    "Causal inference and evidence triangulation applied to",
+    "pancreatic and bladder cancer.",
+    "Supervisor: Dr. Núria Malats"
+  ),
+  # ISGlobal — Postdoctoral Researcher (Rakislova Lab)
+  "31778472" = paste(
+    "Cancer genomics of vulvar and penile squamous cell carcinoma",
+    "from whole-exome sequencing: somatic variant calling and",
+    "copy-number analysis.",
+    "Supervisor: Dr. Natalia Rakislova"
+  ),
+  # PhD Student — Childhood and Environment
+  "15100551" = paste(
+    "Early-life exposure to environmental chemicals and child",
+    "neurodevelopment (HELIX, ATHLETE cohorts): causal inference,",
+    "evidence triangulation, and multi-omic integration.",
+    "Supervisor: Prof. Martine Vrijheid"
+  )
+)
+
+render_affiliations(cv_data$employments, details = emp_details)
 ```

@@ -1,7 +1,7 @@
 ---
 title: "Lorenzo Fabbri"
 lang: en
-cv-tagline: "Postdoctoral Researcher in Epidemiology"
+cv-tagline: "Postdoctoral Fellow in Cancer Epidemiology"
 cv-email: "lorenzo.fabbri92sm@gmail.com"
 cv-location: "Madrid, Spain"
 cv-website: "lorenzofabbri.github.io/epilorenzo"

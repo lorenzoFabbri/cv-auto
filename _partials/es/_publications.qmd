@@ -6,8 +6,8 @@
 render_publications(journal_articles, highlight_name = "Fabbri")
 ```
 
-### Artículos en Revisión
+### Documentos de Trabajo
 
-- Distinct tumor microenvironment signatures predict outcomes and correlate
-  with PD-L1 in HPV-independent vulvar cancer.
+- Clonal evolution and genomic divergence in penile squamous cell carcinoma:
+  insights from matched premalignant, normal, and tumor tissues.
 - Cohort Profile Update: The Human Early Life Exposome (HELIX) Cohort.

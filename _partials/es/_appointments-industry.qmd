@@ -1,0 +1,23 @@
+## Experiencia Académica
+
+```{r}
+# Detalles orientados a industria: herramientas, técnicas y resultados
+# entregados. CNIO sin detalle por ahora (incorporación reciente).
+emp_details <- list(
+  # ISGlobal — Investigador Postdoctoral (Rakislova Lab)
+  "31778472" = paste(
+    "Desarrollo de pipelines reproducibles de secuenciación del exoma",
+    "completo (Bash, R, SLURM) para genómica del cáncer: control de calidad,",
+    "alineamiento, llamada de variantes somáticas multi-caller y análisis de",
+    "número de copias; autor del paquete de R squamr."
+  ),
+  # Doctorado — Childhood and Environment
+  "15100551" = paste(
+    "Desarrollo de pipelines reproducibles de inferencia causal y multi-ómica",
+    "en R y Python en HPC (g-fórmula paramétrica, análisis de redes); código",
+    "abierto publicado para tres artículos como primer autor."
+  )
+)
+
+render_affiliations(cv_data$employments, details = emp_details)
+```

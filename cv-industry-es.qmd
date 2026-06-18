@@ -22,7 +22,7 @@ cv-bluesky: "epilorenzo.bsky.social"
 
 {{< include _partials/es/_software.qmd >}}
 
-{{< include _partials/es/_appointments.qmd >}}
+{{< include _partials/es/_appointments-industry.qmd >}}
 
 {{< include _partials/es/_education-short.qmd >}}
 

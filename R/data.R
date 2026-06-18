@@ -35,6 +35,13 @@ cv_data <- list(
   works = safe_fetch(orcid_works, ORCID_ID)
 )
 
+# Display role titles consistently: ORCID stores "Postdoctoral Researcher",
+# but the CV (and website) use "Postdoctoral Fellow" throughout.
+if (!is.null(cv_data$employments) && nrow(cv_data$employments) > 0) {
+  is_postdoc <- cv_data$employments$role == "Postdoctoral Researcher"
+  cv_data$employments$role[is_postdoc] <- "Postdoctoral Fellow"
+}
+
 #' Works subsets by type — used directly in CV chunks
 journal_articles <- cv_data$works[type == "journal-article"]
 conference_papers <- cv_data$works[type == "conference-paper"]

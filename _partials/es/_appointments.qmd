@@ -1,5 +1,29 @@
 ## Experiencia Académica
 
 ```{r}
-render_affiliations(cv_data$employments)
+emp_details <- list(
+  # CNIO — Investigador Postdoctoral
+  "36898188" = paste(
+    "Grupo de Epidemiología Genética y Molecular.",
+    "Inferencia causal y triangulación de la evidencia aplicadas",
+    "al cáncer de páncreas y de vejiga.",
+    "Supervisora: Dra. Núria Malats"
+  ),
+  # ISGlobal — Investigador Postdoctoral (Rakislova Lab)
+  "31778472" = paste(
+    "Genómica del carcinoma escamoso de vulva y de pene mediante",
+    "secuenciación del exoma completo: llamada de variantes somáticas",
+    "y análisis de número de copias.",
+    "Supervisora: Dra. Natalia Rakislova"
+  ),
+  # Doctorado — Childhood and Environment
+  "15100551" = paste(
+    "Exposición temprana a contaminantes ambientales y neurodesarrollo",
+    "infantil (cohortes HELIX, ATHLETE): inferencia causal,",
+    "triangulación de la evidencia e integración multi-ómica.",
+    "Supervisora: Prof. Martine Vrijheid"
+  )
+)
+
+render_affiliations(cv_data$employments, details = emp_details)
 ```

@@ -2,7 +2,7 @@
 
 **etverse: Modular R ecosystem for transparent causal inference** [[github.com/etverse]](https://github.com/etverse)\
 Software | In development\
-Includes: **causatr** (causal effects estimation), **negatr** (negative control analysis), and additional methods packages.
+Includes: **causatr** (causal effects estimation), **negatr** (negative control analysis), **matchatr** (matched case-control and case-cohort study analysis), and **survatr** (survival analysis).
 
 ```{r}
 render_talks(software)

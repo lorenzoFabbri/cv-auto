@@ -69,9 +69,8 @@ jobs:
 
       - uses: r-lib/actions/setup-renv@v2
 
-      - name: Install system fonts (for Typst PDF)
-        run: sudo apt-get install -y fonts-noto fonts-liberation
-
+      # No system-font install needed — Liberation Sans is vendored in fonts/
+      # and resolved via the typst font-paths setting in _quarto.yml.
       - name: Render CV (HTML + PDF + DOCX)
         run: quarto render
         env:

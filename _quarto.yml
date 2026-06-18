@@ -23,6 +23,9 @@ format:
     grid:
       body-width: 800px
   typst:
+    # Vendored font (fonts/) so the PDF renders identically on macOS, CI, and any clone
+    font-paths:
+      - fonts
     template-partials:
       - templates/typst-show.typ
       - templates/typst-template.typ

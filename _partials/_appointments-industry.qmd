@@ -1,0 +1,23 @@
+## Academic Appointments
+
+```{r}
+# Industry-flavoured detail lines: emphasise tools, techniques, and delivered
+# artefacts rather than the academic framing used in _appointments.qmd.
+# CNIO intentionally has no detail yet (role recently started).
+emp_details <- list(
+  # ISGlobal — Postdoctoral Researcher (Rakislova Lab)
+  "31778472" = paste(
+    "Built reproducible whole-exome sequencing pipelines (Bash, R, SLURM)",
+    "for cancer genomics: QC, alignment, multi-caller somatic variant",
+    "calling, and copy-number analysis; authored the squamr R package."
+  ),
+  # PhD Student — Childhood and Environment
+  "15100551" = paste(
+    "Developed reproducible causal-inference and multi-omics pipelines in",
+    "R and Python on HPC (parametric g-formula, network analysis);",
+    "released open-source code for three first-author papers."
+  )
+)
+
+render_affiliations(cv_data$employments, details = emp_details)
+```
