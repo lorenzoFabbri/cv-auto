@@ -4,8 +4,10 @@ on:
   push:
     branches: [main]
   schedule:
-    # First Monday of the month at 08:00 UTC — picks up new ORCID entries automatically
-    - cron: "0 8 1-7 * 1"
+    # Every Monday at 08:00 UTC; the gate job below keeps only the first of the
+    # month. Cron ORs day-of-month with day-of-week, so "1-7 * 1" would fire on
+    # days 1-7 *and* every Monday.
+    - cron: "0 8 * * 1"
   workflow_dispatch:
 
 permissions:
@@ -23,9 +25,25 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
+  # ── 0. First-Monday gate ────────────────────────────────────────────────
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.check.outputs.run }}
+    steps:
+      - id: check
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ] || [ "$(date -u +%-d)" -le 7 ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
   # ── 1. Lint & format ────────────────────────────────────────────────────
   lint:
     runs-on: ubuntu-latest
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     steps:
       - uses: actions/checkout@v4
 
