@@ -14,7 +14,7 @@ docx:
 	quarto render --to docx
 
 lint:
-	Rscript -e "lintr::lint_dir('R/')"
+	LINTR_ERROR_ON_LINT=true Rscript -e "lintr::lint_dir('R/')"
 
 format:
 	air format R/

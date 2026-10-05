@@ -19,11 +19,6 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
-env:
-  # Opt into Node.js 24 now; Node.js 20 becomes the default starting June 2 2026
-  # and will be removed from runners on September 16 2026.
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
-
 jobs:
   # ── 0. First-Monday gate ────────────────────────────────────────────────
   gate:
@@ -45,36 +40,40 @@ jobs:
     needs: gate
     if: needs.gate.outputs.run == 'true'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
+      # Pinned so a new air release cannot reformat code and fail the check;
+      # bump together with the local install.
+      - uses: posit-dev/setup-air@v1
+        with:
+          version: "0.12.0"
+
+      - name: Check formatting with air
+        run: air format --check R/
+
+      # lintr needs none of the project packages (object_usage_linter is off),
+      # so this job skips renv entirely.
       - uses: r-lib/actions/setup-r@v2
         with:
           r-version: "4.6"
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-renv@v2
-
-      # air: fast R formatter (Rust-based, from Posit)
-      - name: Install air
-        run: |
-          curl -LsSf https://github.com/posit-dev/air/releases/latest/download/air-installer.sh | sh
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: Check formatting with air
-        run: air format --check R/
-
       - name: Install lintr
         run: Rscript -e "install.packages('lintr')"
 
+      # error_on_lint only takes effect as an env var: lint_dir() resets the
+      # .lintr settings before the lints are printed.
       - name: Lint with lintr
         run: Rscript -e "lintr::lint_dir('R/')"
+        env:
+          LINTR_ERROR_ON_LINT: true
 
   # ── 2. Render all formats ───────────────────────────────────────────────
   render:
     runs-on: ubuntu-latest
     needs: lint
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -83,26 +82,27 @@ jobs:
 
       - uses: quarto-dev/quarto-actions/setup@v2
         with:
-          version: "pre-release"  # needed for typst support
+          version: release
 
+      # GitHub evicts caches unused for 7 days, so a monthly run never hits one.
       - uses: r-lib/actions/setup-renv@v2
+        with:
+          bypass-cache: true
 
       # No system-font install needed — Liberation Sans is vendored in fonts/
       # and resolved via the typst font-paths setting in _quarto.yml.
       - name: Render CV (HTML + PDF + DOCX)
         run: quarto render
         env:
-          # Optional: set for higher ORCID API rate limits
-          # ORCID_TOKEN: ${{ secrets.ORCID_TOKEN }}
           QUARTO_PRINT_STACK: true
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: docs/
 
-      - name: Upload PDF and DOCX as release artifacts
-        uses: actions/upload-artifact@v4
+      - name: Upload PDF and DOCX as workflow artifacts
+        uses: actions/upload-artifact@v7
         with:
           name: cv-outputs
           path: |
@@ -119,4 +119,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
