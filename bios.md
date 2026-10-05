@@ -1,7 +1,6 @@
 # Lorenzo Fabbri — bios
 
-Two ready-to-paste bios, generated from the CV. Not part of the Quarto render
-(only the files listed in `_quarto.yml` are rendered).
+Two ready-to-paste bios, generated from the CV. Not part of the Quarto render (only the files listed in `_quarto.yml` are rendered).
 
 ---
 
