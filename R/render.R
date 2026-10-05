@@ -80,6 +80,52 @@ type_label <- function(type) {
   if (!is.null(labels[[type]])) labels[[type]] else labels$.default
 }
 
+# ORCID records hold one language, so role and award titles are translated into
+# the CV language at render time. Keys are the exact ORCID strings (after the
+# rename in data.R) without any " [declined]" suffix; a title with no entry is
+# shown as ORCID has it. Filters such as keep_roles match the raw ORCID strings.
+# nolint start: line_length_linter.
+ROLE_LABELS <- list(
+  en = c(
+    "Máster universitario de Análisis Económico" = "Master's Degree in Economic Analysis",
+    "Máster de Formación Permanente en Salud Pública" = "Lifelong Learning Master's in Public Health",
+    "Diploma de Experto Universitario en Métodos Avanzados de Estadística Aplicada" = "University Expert Diploma in Advanced Methods of Applied Statistics"
+  ),
+  es = c(
+    "Postdoctoral Fellow" = "Investigador postdoctoral",
+    "PhD Student" = "Investigador predoctoral",
+    "Student Research Assistant Fellowship" = "Beca de asistente de investigación",
+    "PG Certificate in Public Health" = "Certificado de Posgrado en Salud Pública",
+    "Graduate Certificate in Theoretical Statistics and Probability" = "Certificado de Posgrado en Estadística Teórica y Probabilidad",
+    "PhD Programme in Biomedicine" = "Programa de Doctorado en Biomedicina",
+    "M.Sc. in Quantitative and Computational Biology" = "Máster en Biología Cuantitativa y Computacional",
+    "M.Sc. Student in Computational Science" = "Estudiante de Máster en Ciencia Computacional",
+    "B.Sc. in Biotechnology" = "Grado en Biotecnología",
+    "Master's thesis" = "Trabajo de fin de máster",
+    "Master's internship" = "Prácticas de máster",
+    "Bachelor's thesis" = "Trabajo de fin de grado",
+    "Student Tuition Waiver" = "Exención de matrícula para estudiantes",
+    "Outstanding Abstract by a Student" = "Premio al resumen destacado de estudiante",
+    "Erasmus+ Traineeship Programme Scholarship" = "Beca del programa Erasmus+ Prácticas",
+    "Erasmus Traineeship Programme Scholarship" = "Beca del programa Erasmus Prácticas",
+    "Faculty of Informatics Scholarship" = "Beca de la Facultad de Informática"
+  )
+)
+# nolint end
+
+DECLINED <- list(en = "[declined]", es = "[declinada]")
+
+localize_title <- function(x) {
+  lang <- cv_lang()
+  declined <- endsWith(x, " [declined]")
+  base <- if (declined) str_remove(x, " \\[declined\\]$") else x
+  labels <- ROLE_LABELS[[lang]]
+  if (base %in% names(labels)) {
+    base <- labels[[base]]
+  }
+  if (declined) paste(base, DECLINED[[lang]]) else base
+}
+
 FULL_MONTHS <- list(
   en = c(
     "January",
@@ -182,7 +228,11 @@ render_affiliations <- function(
     seq_len(nrow(dt)),
     function(i) {
       row <- dt[i]
-      role <- if (!is.na(row$role) && row$role != "") row$role else ""
+      role <- if (!is.na(row$role) && row$role != "") {
+        localize_title(row$role)
+      } else {
+        ""
+      }
       org <- if (!is.na(row$organization)) row$organization else ""
       dept <- if (show_dept && !is.na(row$department) && row$department != "") {
         row$department
@@ -247,7 +297,7 @@ render_fundings <- function(data) {
     seq_len(nrow(dt)),
     function(i) {
       row <- dt[i]
-      title <- if (!is.na(row$title)) row$title else ""
+      title <- if (!is.na(row$title)) localize_title(row$title) else ""
       org <- if (!is.na(row$organization)) row$organization else ""
       dates <- format_date_range(row$start_date, row$end_date)
 
@@ -322,25 +372,21 @@ render_publications <- function(
   has_doi <- !is.na(dt$doi) & dt$doi != ""
   enriched <- dt
 
+  # A CrossRef error stops the render: without it every entry loses its authors
+  # and journal, and CI would deploy that degraded list.
   if (fetch_crossref && any(has_doi)) {
-    cr <- tryCatch(
-      rcrossref::cr_works(dois = dt$doi[has_doi])$data,
-      error = function(e) NULL
-    )
-    if (!is.null(cr)) {
-      cr_df <- as.data.frame(cr)
-      cr_df$doi <- tolower(trimws(cr_df$doi))
-      if ("container.title" %in% names(cr_df)) {
-        names(cr_df)[names(cr_df) == "container.title"] <- "journal_cr"
-      }
-      enriched <- merge(
-        as.data.frame(dt),
-        cr_df,
-        by = "doi",
-        all.x = TRUE,
-        suffixes = c("", "_cr")
-      )
+    cr_df <- as.data.frame(rcrossref::cr_works(dois = dt$doi[has_doi])$data)
+    cr_df$doi <- tolower(trimws(cr_df$doi))
+    if ("container.title" %in% names(cr_df)) {
+      names(cr_df)[names(cr_df) == "container.title"] <- "journal_cr"
     }
+    enriched <- merge(
+      as.data.frame(dt),
+      cr_df,
+      by = "doi",
+      all.x = TRUE,
+      suffixes = c("", "_cr")
+    )
   }
 
   enriched$.pub_year <- suppressWarnings(
@@ -468,13 +514,14 @@ render_talks <- function(works_dt, number = FALSE) {
 # Memberships
 # ---------------------------------------------------------------------------
 
-#' Render professional memberships as a bullet list
+#' Render professional memberships as a dated bullet list, most recent first
 render_memberships <- function(data) {
   if (is.null(data) || nrow(data) == 0) {
     return(invisible(NULL))
   }
 
   dt <- as.data.table(data)
+  dt <- sort_by_year_desc(dt, "start_date")
 
   lines <- vapply(
     seq_len(nrow(dt)),
@@ -483,7 +530,8 @@ render_memberships <- function(data) {
       role <- if (!is.na(row$role) && row$role != "") row$role else ""
       org <- if (!is.na(row$organization)) row$organization else ""
       suffix <- if (nchar(role) > 0) paste0(" (", role, ")") else ""
-      glue("- **{org}**{suffix}")
+      dates <- format_date_range(row$start_date, row$end_date)
+      glue("- **{org}**{suffix} {HFILL} {HTML_R}{dates}{HTML_R_END}")
     },
     character(1)
   )

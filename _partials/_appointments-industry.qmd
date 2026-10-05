@@ -3,8 +3,12 @@
 ```{r}
 # Industry-flavoured detail lines: emphasise tools, techniques, and delivered
 # artefacts rather than the academic framing used in _appointments.qmd.
-# CNIO intentionally has no detail yet (role recently started).
 emp_details <- list(
+  # CNIO — Postdoctoral Researcher
+  "36898188" = paste(
+    "Applying causal inference and evidence triangulation to pancreatic and",
+    "bladder cancer research (Genetic and Molecular Epidemiology Group)."
+  ),
   # ISGlobal — Postdoctoral Researcher (Rakislova Lab)
   "31778472" = paste(
     "Built reproducible whole-exome sequencing pipelines (Bash, R, SLURM)",

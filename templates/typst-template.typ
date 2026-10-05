@@ -1,4 +1,4 @@
-// Academic CV template for Quarto + Typst
+// CV template for Quarto + Typst (all variants)
 
 #let accent  = rgb("#1a3a5c")
 #let muted   = rgb("#6b7280")
@@ -27,6 +27,8 @@
   doc,
 ) = {
   let updated-label = if lang == "es" { "Última actualización" } else { "Last updated" }
+  // Page numbering pattern; "of" / "de" contain no Typst counting symbols.
+  let page-pattern = if lang == "es" { "1 de 1" } else { "1 of 1" }
 
   let es-months = ("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre")
   let today = datetime.today()
@@ -42,7 +44,7 @@
     footer: context [
       #set text(size: 7.5pt, fill: muted)
       #align(center)[
-        #name --- CV --- #counter(page).display("1 of 1", both: true)
+        #name --- CV --- #counter(page).display(page-pattern, both: true)
         #h(1em) | #h(1em)
         #updated-label: #formatted-date
       ]

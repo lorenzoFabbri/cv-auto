@@ -2,8 +2,14 @@
 
 ```{r}
 # Detalles orientados a industria: herramientas, técnicas y resultados
-# entregados. CNIO sin detalle por ahora (incorporación reciente).
+# entregados.
 emp_details <- list(
+  # CNIO — Investigador Postdoctoral
+  "36898188" = paste(
+    "Aplicación de la inferencia causal y la triangulación de la evidencia a",
+    "la investigación del cáncer de páncreas y de vejiga (Grupo de",
+    "Epidemiología Genética y Molecular)."
+  ),
   # ISGlobal — Investigador Postdoctoral (Rakislova Lab)
   "31778472" = paste(
     "Desarrollo de pipelines reproducibles de secuenciación del exoma",

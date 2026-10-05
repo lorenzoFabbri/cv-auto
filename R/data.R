@@ -3,36 +3,21 @@ library(data.table)
 #' ORCID identifier for the CV owner
 ORCID_ID <- "0000-0003-3031-322X"
 
-#' Fetch one ORCID section, returning an empty data.table on failure
-#'
-#' @param fn Function from orcidtr to call.
-#' @param ... Arguments forwarded to `fn`.
-#' @return A data.table (possibly empty).
-safe_fetch <- function(fn, ...) {
-  tryCatch(fn(...), error = function(e) {
-    message(
-      "Warning: could not fetch ",
-      deparse(substitute(fn)),
-      ": ",
-      e$message
-    )
-    data.table()
-  })
-}
-
 #' All public ORCID sections for the CV owner
 #'
-#' A named list of data.tables, one per ORCID section.
+#' A named list of data.tables, one per ORCID section. A failed request stops
+#' the render instead of dropping the section, so CI fails and Pages keeps the
+#' last good CV; orcidtr already retries transient errors.
 cv_data <- list(
-  employments = safe_fetch(orcid_employments, ORCID_ID),
-  educations = safe_fetch(orcid_educations, ORCID_ID),
-  invited = safe_fetch(orcid_invited_positions, ORCID_ID),
-  fundings = safe_fetch(orcid_funding, ORCID_ID),
-  distinctions = safe_fetch(orcid_distinctions, ORCID_ID),
-  services = safe_fetch(orcid_services, ORCID_ID),
-  memberships = safe_fetch(orcid_memberships, ORCID_ID),
-  qualifications = safe_fetch(orcid_qualifications, ORCID_ID),
-  works = safe_fetch(orcid_works, ORCID_ID)
+  employments = orcid_employments(ORCID_ID),
+  educations = orcid_educations(ORCID_ID),
+  invited = orcid_invited_positions(ORCID_ID),
+  fundings = orcid_funding(ORCID_ID),
+  distinctions = orcid_distinctions(ORCID_ID),
+  services = orcid_services(ORCID_ID),
+  memberships = orcid_memberships(ORCID_ID),
+  qualifications = orcid_qualifications(ORCID_ID),
+  works = orcid_works(ORCID_ID)
 )
 
 # Display role titles consistently: ORCID stores "Postdoctoral Researcher",
@@ -47,3 +32,6 @@ journal_articles <- cv_data$works[type == "journal-article"]
 conference_papers <- cv_data$works[type == "conference-paper"]
 posters <- cv_data$works[type == "conference-poster"]
 software <- cv_data$works[type == "software"]
+
+# CRAN DOIs carry the venue "CRAN: Contributed Packages"; "CRAN" reads better.
+software[, journal := sub(": Contributed Packages$", "", journal)]
