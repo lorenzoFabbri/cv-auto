@@ -1,0 +1,6 @@
+## Formación continua
+
+```{r}
+# Industry CVs list courses from 2018 on, which keeps them to two pages.
+render_affiliations(cv_data$qualifications[as.integer(substr(start_date, 1, 4)) >= 2018])
+```

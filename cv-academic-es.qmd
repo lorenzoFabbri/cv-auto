@@ -1,7 +1,7 @@
 ---
 title: "Lorenzo Fabbri"
 lang: es
-cv-tagline: "Investigador postdoctoral en Epidemiología del Cáncer"
+cv-tagline: "Investigador postdoctoral en epidemiología del cáncer"
 cv-email: "lorenzo.fabbri92sm@gmail.com"
 cv-location: "Madrid, España"
 cv-website: "lorenzofabbri.github.io/epilorenzo"
@@ -22,13 +22,13 @@ cv-bluesky: "epilorenzo.bsky.social"
 
 {{< include _partials/es/_education.qmd >}}
 
+{{< include _partials/es/_publications.qmd >}}
+
 {{< include _partials/es/_research-visits.qmd >}}
 
 {{< include _partials/es/_grants.qmd >}}
 
 {{< include _partials/es/_honors.qmd >}}
-
-{{< include _partials/es/_publications.qmd >}}
 
 {{< include _partials/es/_software.qmd >}}
 

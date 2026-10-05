@@ -1,42 +1,43 @@
-## Formación Académica
+## Formación académica
 
 ```{r}
 edu_details <- list(
-  # PG Certificate in Public Health, LSHTM
-  "26799263" = "Epidemiología Básica (PHM101)",
+  # PG Certificate in Public Health, LSHTM (grade points 0-5, pass from 2)
+  "26799263" = "Epidemiología Básica (PHM101): calificación 4/5.",
   # Graduate Certificate, Open University
-  "23612750" = "Estadística Matemática (M347): 91/100 con distinción",
-  # PhD Programme in Biomedicine, UPF
+  "23612750" = "Estadística Matemática (M347): 91/100 con distinción.",
+  # PhD in Biomedicine, UPF
   "16645010" = paste(
     "Tesis: Exposición temprana a contaminantes ambientales y",
     "neurodesarrollo en la infancia y la adolescencia.",
-    "Directora: Prof. Martine Vrijheid"
+    "Directora: Prof.ª Martine Vrijheid.",
+    "Calificación: Sobresaliente cum laude."
   ),
   # M.Sc. in Quantitative and Computational Biology, Trento
   "9421733" = paste(
-    "Tesis (FBK, Trento): Aprendizaje automático para predecir",
-    "hepatotoxicidad inducida por fármacos. Dirigida por: Dr. Cesare Furlanello,",
-    "Dr. Marco Chierici, Prof. Enrico Domenici.",
-    "Estancia (HITS, Heidelberg): Aprendizaje automático y profundo para",
-    "predecir cinéticas de disociación en quinasas. Dirigida por: Prof. Rebecca Wade,",
-    "Dr. Daria Kokh, Prof. Raffaello Potestio.",
-    "Calificación final: 110/110 con honores"
+    "Trabajo de fin de máster (FBK, Trento): Aprendizaje automático para",
+    "predecir hepatotoxicidad inducida por fármacos. Directores: Dr. Cesare",
+    "Furlanello, Dr. Marco Chierici y Prof. Enrico Domenici.",
+    "Prácticas (HITS, Heidelberg): Aprendizaje automático y profundo para",
+    "predecir cinéticas de disociación en quinasas. Directores: Prof.ª Rebecca",
+    "Wade, Dra. Daria Kokh y Prof. Raffaello Potestio.",
+    "Calificación final: 110/110 cum laude."
   ),
   # M.Sc. Student in Computational Science, USI
   "16695943" = paste(
     "Proyecto (USI, Lugano): Investigación mediante técnicas computacionales de",
     "canalopatías relacionadas con canales de sodio.",
-    "Dirigido por: Prof. Vittorio Limongelli, Prof. Daniele Di Marino.",
+    "Directores: Prof. Vittorio Limongelli y Prof. Daniele Di Marino.",
     "(Máster no completado; traslado a la Università degli Studi di Trento.)"
   ),
   # B.Sc. in Biotechnology, Parma
   "16695935" = paste(
-    "Tesis (RWTH, Aachen): Modelado farmacocinético basado en fisiología (PBPK)",
-    "del ácido valproico. Dirigida por: Prof. Elena Maestri, Prof. Lars M. Blank,",
-    "Dr. Henrik Cordes.",
-    "Calificación final: 103/110"
+    "Trabajo de fin de grado (RWTH, Aachen): Modelado farmacocinético basado en",
+    "fisiología (PBPK) del ácido valproico. Directores: Prof.ª Elena Maestri,",
+    "Prof. Lars M. Blank y Dr. Henrik Cordes.",
+    "Calificación final: 103/110."
   )
 )
 
-render_affiliations(cv_data$educations, details = edu_details)
+render_education(cv_data$educations, details = edu_details)
 ```

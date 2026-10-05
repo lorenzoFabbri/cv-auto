@@ -1,4 +1,4 @@
-## Formación Continua
+## Formación continua
 
 ```{r}
 render_affiliations(cv_data$qualifications)

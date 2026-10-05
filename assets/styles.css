@@ -139,6 +139,7 @@ th {
 td {
   padding: 0.3rem 0.6rem;
   border-bottom: 1px solid var(--divider);
+  vertical-align: top;
 }
 
 tr:last-child td {
@@ -164,5 +165,11 @@ tr:last-child td {
   body {
     font-size: 14px;
     margin: 1rem auto;
+  }
+
+  /* Floated dates would sit beside wrapped detail text; stack them instead. */
+  .cv-right {
+    float: none;
+    display: block;
   }
 }

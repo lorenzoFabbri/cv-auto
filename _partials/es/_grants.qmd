@@ -1,4 +1,4 @@
-## Becas y Financiación
+## Becas y ayudas
 
 ```{r}
 render_fundings(cv_data$fundings)

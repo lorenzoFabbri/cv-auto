@@ -5,9 +5,10 @@ library(stringr)
 # Defined as a constant because glue() strips a trailing `\` before `\n`.
 BR <- "\\"
 
-# Inline raw Typst that pushes subsequent content to the right.
-# Silently ignored in non-Typst outputs (HTML, DOCX).
-HFILL <- "`#h(1fr)`{=typst}"
+# Inline raw Typst and OpenXML that push subsequent content to the right; the
+# DOCX tab relies on the right tab stops in templates/reference.docx. Ignored in
+# HTML, where HTML_R floats the content instead.
+HFILL <- "`#h(1fr)`{=typst}`<w:r><w:tab/></w:r>`{=openxml}"
 
 # Raw-HTML wrapper that right-aligns its content (ignored in Typst / DOCX).
 HTML_R <- '`<span class="cv-right">`{=html}'
@@ -56,7 +57,11 @@ MONTHS <- list(
   )
 )
 
-PRESENT <- list(en = "Present", es = "Actual")
+PRESENT <- list(en = "Present", es = "actualidad")
+
+IN_PROGRESS <- list(en = "In progress", es = "En curso")
+
+LINK_LABEL <- list(en = "link", es = "enlace")
 
 TYPE_LABELS <- list(
   en = list(
@@ -67,11 +72,11 @@ TYPE_LABELS <- list(
     .default = "Talk"
   ),
   es = list(
-    "lecture-speech" = "Charla invitada",
+    "lecture-speech" = "Ponencia invitada",
     "conference-paper" = "Comunicación oral",
     "conference-poster" = "Póster",
     "software" = "Software",
-    .default = "Charla"
+    .default = "Ponencia"
   )
 )
 
@@ -83,7 +88,7 @@ type_label <- function(type) {
 # ORCID records hold one language, so role and award titles are translated into
 # the CV language at render time. Keys are the exact ORCID strings (after the
 # rename in data.R) without any " [declined]" suffix; a title with no entry is
-# shown as ORCID has it. Filters such as keep_roles match the raw ORCID strings.
+# shown as ORCID has it, so a title edited on ORCID needs its key updated here.
 # nolint start: line_length_linter.
 ROLE_LABELS <- list(
   en = c(
@@ -93,11 +98,11 @@ ROLE_LABELS <- list(
   ),
   es = c(
     "Postdoctoral Fellow" = "Investigador postdoctoral",
-    "PhD Student" = "Investigador predoctoral",
-    "Student Research Assistant Fellowship" = "Beca de asistente de investigación",
+    "Predoctoral Researcher" = "Investigador predoctoral",
+    "Student Research Assistant" = "Asistente de investigación (estudiante)",
     "PG Certificate in Public Health" = "Certificado de Posgrado en Salud Pública",
-    "Graduate Certificate in Theoretical Statistics and Probability" = "Certificado de Posgrado en Estadística Teórica y Probabilidad",
-    "PhD Programme in Biomedicine" = "Programa de Doctorado en Biomedicina",
+    "Graduate Certificate in Theoretical Statistics and Probability" = "Graduate Certificate en Estadística Teórica y Probabilidad (nivel de grado)",
+    "PhD in Biomedicine" = "Doctorado en Biomedicina",
     "M.Sc. in Quantitative and Computational Biology" = "Máster en Biología Cuantitativa y Computacional",
     "M.Sc. Student in Computational Science" = "Estudiante de Máster en Ciencia Computacional",
     "B.Sc. in Biotechnology" = "Grado en Biotecnología",
@@ -107,7 +112,6 @@ ROLE_LABELS <- list(
     "Student Tuition Waiver" = "Exención de matrícula para estudiantes",
     "Outstanding Abstract by a Student" = "Premio al resumen destacado de estudiante",
     "Erasmus+ Traineeship Programme Scholarship" = "Beca del programa Erasmus+ Prácticas",
-    "Erasmus Traineeship Programme Scholarship" = "Beca del programa Erasmus Prácticas",
     "Faculty of Informatics Scholarship" = "Beca de la Facultad de Informática"
   )
 )
@@ -157,11 +161,14 @@ FULL_MONTHS <- list(
   )
 )
 
-# Today's month + year in the active CV language ("April 2026" / "abril 2026")
+# Today's month + year in the active CV language ("April 2026" /
+# "abril de 2026"; Spanish joins month and year with "de")
 format_today <- function() {
+  lang <- cv_lang()
   m <- as.integer(format(Sys.Date(), "%m"))
   y <- format(Sys.Date(), "%Y")
-  paste(FULL_MONTHS[[cv_lang()]][m], y)
+  sep <- if (lang == "es") " de " else " "
+  paste0(FULL_MONTHS[[lang]][m], sep, y)
 }
 
 # ---------------------------------------------------------------------------
@@ -188,17 +195,14 @@ format_date_range <- function(start, end) {
   if (s == e) s else paste0(s, " -- ", e)
 }
 
-# Sort a data.table by a date column (year prefix), most recent first
-sort_by_year_desc <- function(dt, col) {
-  dt[,
-    .y := suppressWarnings(as.integer(str_extract(
-      as.character(get(col)),
-      "^\\d{4}"
-    )))
-  ]
-  dt <- dt[order(-.y, na.last = TRUE)]
-  dt[, .y := NULL]
-  dt
+# Sort a data.table by a "YYYY[-MM[-DD]]" date column, most recent first; a
+# missing month sorts after the dated entries of the same year
+sort_by_date_desc <- function(dt, col) {
+  key <- as.character(dt[[col]])
+  y <- suppressWarnings(as.integer(str_extract(key, "^\\d{4}")))
+  m <- suppressWarnings(as.integer(str_match(key, "^\\d{4}-(\\d{1,2})")[, 2]))
+  idx <- order(-y, -m, na.last = TRUE)
+  dt[idx]
 }
 
 # ---------------------------------------------------------------------------
@@ -222,7 +226,7 @@ render_affiliations <- function(
   }
 
   dt <- as.data.table(data)
-  dt <- sort_by_year_desc(dt, "start_date")
+  dt <- sort_by_date_desc(dt, "start_date")
 
   lines <- vapply(
     seq_len(nrow(dt)),
@@ -278,6 +282,20 @@ render_affiliations <- function(
   cat(paste(lines, collapse = "\n\n"), "\n")
 }
 
+#' Render education with completed degrees first and ongoing programmes
+#' (no end date) under an "In progress" subheading
+#'
+#' @param data    data.table returned by `orcid_educations()`.
+#' @param details Named list of extra detail strings keyed by ORCID put_code.
+render_education <- function(data, details = NULL) {
+  ongoing <- is.na(data$end_date) | data$end_date == ""
+  render_affiliations(data[!ongoing], details = details)
+  if (any(ongoing)) {
+    cat("\n\n###", IN_PROGRESS[[cv_lang()]], "\n\n")
+    render_affiliations(data[ongoing], details = details)
+  }
+}
+
 # ---------------------------------------------------------------------------
 # Funding section
 # ---------------------------------------------------------------------------
@@ -291,7 +309,7 @@ render_fundings <- function(data) {
   }
 
   dt <- as.data.table(data)
-  dt <- sort_by_year_desc(dt, "start_date")
+  dt <- sort_by_date_desc(dt, "start_date")
 
   lines <- vapply(
     seq_len(nrow(dt)),
@@ -329,7 +347,14 @@ highlight_author <- function(author_str, pattern = "Fabbri") {
 }
 
 #' Format a CrossRef author list-column entry into "Family Initials, ..."
-format_author_list <- function(authors_nested) {
+#'
+#' Lists longer than `max_authors` keep the first three authors and `keep_name`,
+#' marking gaps with an ellipsis and a cut tail with "et al.".
+format_author_list <- function(
+  authors_nested,
+  max_authors = Inf,
+  keep_name = NULL
+) {
   if (is.null(authors_nested) || length(authors_nested) == 0) {
     return("")
   }
@@ -350,7 +375,39 @@ format_author_list <- function(authors_nested) {
     au$family
   )
 
+  if (length(names_vec) > max_authors) {
+    own <- if (is.null(keep_name)) {
+      NA
+    } else {
+      which(str_detect(names_vec, paste0("\\b", keep_name, "\\b")))[1]
+    }
+    keep <- sort(unique(c(1:3, if (!is.na(own)) own)))
+    shown <- character(0)
+    for (j in seq_along(keep)) {
+      if (j > 1 && keep[j] > keep[j - 1] + 1) {
+        shown <- c(shown, "…")
+      }
+      shown <- c(shown, names_vec[keep[j]])
+    }
+    if (max(keep) < length(names_vec)) {
+      shown <- c(shown, "et al.")
+    }
+    names_vec <- shown
+  }
+
   paste(names_vec, collapse = ", ")
+}
+
+#' Crossref article number for a DOI, or NA
+#'
+#' rcrossref drops Crossref's article-number field, which online-only journals
+#' use instead of a page range.
+crossref_article_number <- function(doi) {
+  resp <- httr2::request(paste0("https://api.crossref.org/works/", doi)) |>
+    httr2::req_retry(max_tries = 3) |>
+    httr2::req_perform()
+  number <- httr2::resp_body_json(resp)$message[["article-number"]]
+  if (is.null(number)) NA_character_ else number
 }
 
 #' Render publications list enriched with CrossRef metadata
@@ -358,10 +415,13 @@ format_author_list <- function(authors_nested) {
 #' @param works_dt       data.table of works from `orcid_works()`.
 #' @param highlight_name Surname to bold in author lists.
 #' @param fetch_crossref Logical; set FALSE to skip CrossRef.
+#' @param max_authors    Shorten author lists longer than this (see
+#'   `format_author_list()`).
 render_publications <- function(
   works_dt,
   highlight_name = "Fabbri",
-  fetch_crossref = TRUE
+  fetch_crossref = TRUE,
+  max_authors = Inf
 ) {
   if (is.null(works_dt) || nrow(works_dt) == 0) {
     return(invisible(NULL))
@@ -403,7 +463,11 @@ render_publications <- function(
       title <- if (!is.na(row$title)) str_squish(row$title) else "(no title)"
       authors <- ""
       if ("author" %in% names(row) && !is.null(row$author[[1]])) {
-        authors <- format_author_list(row$author[[1]])
+        authors <- format_author_list(
+          row$author[[1]],
+          max_authors,
+          highlight_name
+        )
         authors <- highlight_author(authors, highlight_name)
       }
 
@@ -433,8 +497,12 @@ render_publications <- function(
         if ("issue" %in% names(row) && !is.na(row$issue)) {
           vol_str <- paste0(vol_str, "(", row$issue, ")")
         }
-        if ("page" %in% names(row) && !is.na(row$page)) {
-          vol_str <- paste0(vol_str, ":", row$page)
+        page <- if ("page" %in% names(row)) row$page else NA
+        if (is.na(page) && fetch_crossref && !is.na(row$doi) && row$doi != "") {
+          page <- crossref_article_number(row$doi)
+        }
+        if (!is.na(page)) {
+          vol_str <- paste0(vol_str, ":", page)
         }
       }
 
@@ -447,7 +515,10 @@ render_publications <- function(
       }
 
       parts <- c(
-        if (nchar(authors) > 0) paste0(authors, "."),
+        # A shortened list already ends in "et al."
+        if (nchar(authors) > 0) {
+          paste0(authors, if (!endsWith(authors, ".")) ".")
+        },
         glue("{title}."),
         if (nchar(journal) > 0) paste0("*", journal, ".*"),
         if (nchar(year) > 0 || nchar(vol_str) > 0) {
@@ -477,7 +548,7 @@ render_talks <- function(works_dt, number = FALSE) {
   }
 
   dt <- as.data.table(works_dt)
-  dt <- sort_by_year_desc(dt, "publication_date")
+  dt <- sort_by_date_desc(dt, "publication_date")
 
   lines <- vapply(
     seq_len(nrow(dt)),
@@ -492,7 +563,7 @@ render_talks <- function(works_dt, number = FALSE) {
       }
       label <- type_label(row$type)
       url_str <- if (!is.na(row$url) && row$url != "") {
-        glue(" [[link]]({row$url})")
+        glue(" [[{LINK_LABEL[[cv_lang()]]}]]({row$url})")
       } else {
         ""
       }
@@ -521,7 +592,7 @@ render_memberships <- function(data) {
   }
 
   dt <- as.data.table(data)
-  dt <- sort_by_year_desc(dt, "start_date")
+  dt <- sort_by_date_desc(dt, "start_date")
 
   lines <- vapply(
     seq_len(nrow(dt)),

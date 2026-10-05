@@ -2,40 +2,42 @@
 
 ```{r}
 edu_details <- list(
-  # PG Certificate in Public Health, LSHTM
-  "26799263" = "Basic Epidemiology (PHM101)",
+  # PG Certificate in Public Health, LSHTM (grade points 0-5, pass from 2)
+  "26799263" = "Basic Epidemiology (PHM101): grade 4/5.",
   # Graduate Certificate, Open University
-  "23612750" = "Mathematical Statistics (M347): 91/100 With Distinction",
-  # PhD Programme in Biomedicine, UPF
+  "23612750" = "Mathematical Statistics (M347): 91/100 with Distinction.",
+  # PhD in Biomedicine, UPF
   "16645010" = paste(
     "Thesis: Early Life Exposure to Environmental Chemicals and",
     "Neurodevelopment through Childhood and Adolescence.",
-    "Supervisor: Prof. Martine Vrijheid"
+    "Supervisor: Prof. Martine Vrijheid.",
+    "Grade: Sobresaliente cum laude."
   ),
   # M.Sc. in Quantitative and Computational Biology, Trento
   "9421733" = paste(
     "Thesis (FBK, Trento): Machine Learning for Predictive Drug Induced",
-    "Hepatotoxicity. Supervised by: Dr. Cesare Furlanello, Dr. Marco Chierici,",
-    "Prof. Enrico Domenici.",
+    "Hepatotoxicity. Supervisors: Dr. Cesare Furlanello, Dr. Marco Chierici,",
+    "and Prof. Enrico Domenici.",
     "Internship (HITS, Heidelberg): Machine and Deep Learning for Predictive",
-    "Unbinding Kinetics of Kinases. Supervised by: Prof. Rebecca Wade,",
-    "Dr. Daria Kokh, Prof. Raffaello Potestio.",
-    "Final mark: 110/110 With Honors"
+    "Unbinding Kinetics of Kinases. Supervisors: Prof. Rebecca Wade,",
+    "Dr. Daria Kokh, and Prof. Raffaello Potestio.",
+    "Final mark: 110/110 cum laude."
   ),
   # M.Sc. Student in Computational Science, USI
   "16695943" = paste(
     "Project (USI, Lugano): Investigation by Computational Techniques of",
     "Channelopathies Related to Sodium Channels.",
-    "Supervised by: Prof. Vittorio Limongelli, Prof. Daniele Di Marino.",
+    "Supervisors: Prof. Vittorio Limongelli and Prof. Daniele Di Marino.",
     "(M.Sc. not completed; transferred to Università degli Studi di Trento.)"
   ),
   # B.Sc. in Biotechnology, Parma
   "16695935" = paste(
     "Thesis (RWTH, Aachen): Whole Body PBPK Modeling of Valproic Acid.",
-    "Supervised by: Prof. Elena Maestri, Prof. Lars M. Blank, Dr. Henrik Cordes.",
-    "Final mark: 103/110"
+    "Supervisors: Prof. Elena Maestri, Prof. Lars M. Blank, and",
+    "Dr. Henrik Cordes.",
+    "Final mark: 103/110."
   )
 )
 
-render_affiliations(cv_data$educations, details = edu_details)
+render_education(cv_data$educations, details = edu_details)
 ```

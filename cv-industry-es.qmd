@@ -18,11 +18,11 @@ cv-bluesky: "epilorenzo.bsky.social"
 
 {{< include _partials/es/_summary.qmd >}}
 
+{{< include _partials/es/_appointments-industry.qmd >}}
+
 {{< include _partials/es/_skills-industry.qmd >}}
 
 {{< include _partials/es/_software.qmd >}}
-
-{{< include _partials/es/_appointments-industry.qmd >}}
 
 {{< include _partials/es/_education-short.qmd >}}
 
@@ -30,6 +30,6 @@ cv-bluesky: "epilorenzo.bsky.social"
 
 {{< include _partials/es/_honors.qmd >}}
 
-{{< include _partials/es/_continuing-education.qmd >}}
+{{< include _partials/es/_continuing-education-short.qmd >}}
 
 {{< include _partials/es/_footer.qmd >}}

@@ -1,12 +1,12 @@
 ## Publicaciones
 
-### Artículos en Revistas
+### Artículos en revistas
 
 ```{r}
 render_publications(journal_articles, highlight_name = "Fabbri")
 ```
 
-### Documentos de Trabajo
+### Documentos de trabajo
 
 - Clonal evolution and genomic divergence in penile squamous cell carcinoma:
   insights from matched premalignant, normal, and tumor tissues.

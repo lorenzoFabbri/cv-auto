@@ -1,16 +1,16 @@
-## Servicio
+## Servicio a la comunidad científica
 
-### Revisión por Pares
+### Revisión por pares
 
 - *Scientific Reports* (1 revisión)
 
-### Grupos de Trabajo
+### Grupos de trabajo
 
 ```{r}
 render_affiliations(cv_data$services, show_dept = FALSE)
 ```
 
-### Membresías
+### Sociedades científicas
 
 ```{r}
 render_memberships(cv_data$memberships)

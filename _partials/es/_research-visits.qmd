@@ -1,4 +1,4 @@
-## Estancias de Investigación
+## Estancias de investigación
 
 ```{r}
 render_affiliations(cv_data$invited)

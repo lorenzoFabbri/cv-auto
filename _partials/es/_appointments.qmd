@@ -1,4 +1,4 @@
-## Experiencia Académica
+## Experiencia académica
 
 ```{r}
 emp_details <- list(
@@ -7,21 +7,21 @@ emp_details <- list(
     "Grupo de Epidemiología Genética y Molecular.",
     "Inferencia causal y triangulación de la evidencia aplicadas",
     "al cáncer de páncreas y de vejiga.",
-    "Supervisora: Dra. Núria Malats"
+    "Supervisora: Dra. Núria Malats."
   ),
   # ISGlobal — Investigador Postdoctoral (Rakislova Lab)
   "31778472" = paste(
     "Genómica del carcinoma escamoso de vulva y de pene mediante",
-    "secuenciación del exoma completo: llamada de variantes somáticas",
-    "y análisis de número de copias.",
-    "Supervisora: Dra. Natalia Rakislova"
+    "secuenciación del exoma completo: detección de variantes somáticas",
+    "y análisis de alteraciones en el número de copias.",
+    "Supervisora: Dra. Natalia Rakislova."
   ),
   # Doctorado — Childhood and Environment
   "15100551" = paste(
     "Exposición temprana a contaminantes ambientales y neurodesarrollo",
     "infantil (cohortes HELIX, ATHLETE): inferencia causal,",
-    "triangulación de la evidencia e integración multi-ómica.",
-    "Supervisora: Prof. Martine Vrijheid"
+    "triangulación de la evidencia e integración multiómica.",
+    "Supervisora: Prof.ª Martine Vrijheid."
   )
 )
 

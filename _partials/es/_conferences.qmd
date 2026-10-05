@@ -1,8 +1,8 @@
-## Comunicaciones a Congresos
+## Comunicaciones a congresos
 
 ```{r}
 if (nrow(conference_papers) > 0) {
-  cat("### Comunicaciones Orales\n\n")
+  cat("### Comunicaciones orales\n\n")
   render_talks(conference_papers, number = TRUE)
   cat("\n\n")
 }

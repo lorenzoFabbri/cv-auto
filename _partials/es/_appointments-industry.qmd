@@ -1,4 +1,4 @@
-## Experiencia Académica
+## Experiencia profesional
 
 ```{r}
 # Detalles orientados a industria: herramientas, técnicas y resultados
@@ -12,16 +12,18 @@ emp_details <- list(
   ),
   # ISGlobal — Investigador Postdoctoral (Rakislova Lab)
   "31778472" = paste(
-    "Desarrollo de pipelines reproducibles de secuenciación del exoma",
-    "completo (Bash, R, SLURM) para genómica del cáncer: control de calidad,",
-    "alineamiento, llamada de variantes somáticas multi-caller y análisis de",
-    "número de copias; autor del paquete de R squamr."
+    "Desarrollo de flujos de análisis reproducibles para datos de",
+    "secuenciación del exoma completo (Bash, R, SLURM) en genómica del cáncer:",
+    "control de calidad, alineamiento, detección de variantes somáticas",
+    "combinando varios algoritmos y análisis de alteraciones en el número de",
+    "copias; desarrollo del paquete de R squamr."
   ),
   # Doctorado — Childhood and Environment
   "15100551" = paste(
-    "Desarrollo de pipelines reproducibles de inferencia causal y multi-ómica",
-    "en R y Python en HPC (g-fórmula paramétrica, análisis de redes); código",
-    "abierto publicado para tres artículos como primer autor."
+    "Desarrollo de flujos de análisis reproducibles de inferencia causal y",
+    "multiómica en R y Python en entornos de computación de alto rendimiento",
+    "(fórmula g paramétrica, análisis de redes); publicación del código abierto",
+    "de tres artículos como primer autor."
   )
 )
 

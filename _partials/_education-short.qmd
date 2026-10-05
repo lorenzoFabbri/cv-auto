@@ -1,12 +1,8 @@
 ## Education
 
 ```{r}
-keep_roles <- c(
-  "PhD Programme in Biomedicine",
-  "M.Sc. in Quantitative and Computational Biology",
-  "B.Sc. in Biotechnology",
-  "Graduate Certificate in Theoretical Statistics and Probability",
-  "Diploma de Experto Universitario en Métodos Avanzados de Estadística Aplicada"
-)
-render_affiliations(cv_data$educations[role %in% keep_roles])
+# Selected by ORCID put-code, which survives edits to the role titles:
+# PhD, M.Sc. Trento, B.Sc. Parma, OU Graduate Certificate, UNED Expert Diploma.
+keep_codes <- c("16645010", "9421733", "16695935", "23612750", "32878313")
+render_education(cv_data$educations[put_code %in% keep_codes])
 ```
