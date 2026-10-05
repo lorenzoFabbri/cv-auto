@@ -41,7 +41,7 @@ make clean    # remove rendered outputs
 
 ## Updating content
 
-Records come from ORCID at render time, so they are edited on ORCID rather than here: employments, education, research visits (ORCID invited positions), grants, distinctions, working groups (services), memberships, continuing education (qualifications) and works (journal articles, posters, contributed talks, software). Journal articles are enriched with authors and journal details from CrossRef, and posters with author lists from their DOI metadata. A failed ORCID, CrossRef or DOI request stops the render, so CI fails and Pages keeps the last good version.
+Records come from ORCID at render time, so they are edited on ORCID rather than here: employments, education, research visits (ORCID invited positions), grants, distinctions, working groups (services), memberships, continuing education (qualifications) and works (journal articles, posters, contributed talks, software). Journal articles are enriched with authors and journal details from CrossRef, and posters with author lists from their DOI metadata. Where that metadata is wrong, `AUTHOR_NAME_FIXES` and `AUTHOR_LISTS` in `R/render.R` correct it per DOI. A failed ORCID, CrossRef or DOI request stops the render, so CI fails and Pages keeps the last good version.
 
 Everything else is hand-written in `_partials/`: research interests, the industry profile, skills, the etverse entry, invited talks, peer review, working papers, and the detail lines under appointments and education. Detail lines are keyed by ORCID put-code, which the public API returns, e.g. `curl -H "Accept: application/json" https://pub.orcid.org/v3.0/0000-0003-3031-322X/employments`. Every partial has a Spanish twin in `_partials/es/`, and the two change together.
 

@@ -10,7 +10,7 @@ edu_details <- list(
   "16645010" = paste(
     "Tesis: Exposición temprana a contaminantes ambientales y",
     "neurodesarrollo en la infancia y la adolescencia.",
-    "Directora: Prof.ª Martine Vrijheid.",
+    "Directoras: Prof.ª Martine Vrijheid y Dra. Léa Maitre.",
     "Calificación: Sobresaliente cum laude."
   ),
   # M.Sc. in Quantitative and Computational Biology, Trento

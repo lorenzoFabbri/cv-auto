@@ -110,7 +110,8 @@ ROLE_LABELS <- list(
     "Master's internship" = "Prácticas de máster",
     "Bachelor's thesis" = "Trabajo de fin de grado",
     "Student Tuition Waiver" = "Exención de matrícula para estudiantes",
-    "Outstanding Abstract by a Student" = "Premio al resumen destacado de estudiante",
+    "SNRN Best Abstract Award (Student Researchers)" = "Premio SNRN al mejor resumen (categoría de estudiantes)",
+    "Outstanding Abstract by a Student" = "Premio SNRN al mejor resumen (categoría de estudiantes)",
     "Erasmus+ Traineeship Programme Scholarship" = "Beca del programa Erasmus+ Prácticas",
     "Faculty of Informatics Scholarship" = "Beca de la Facultad de Informática"
   )
@@ -410,13 +411,82 @@ crossref_article_number <- function(doi) {
   if (is.null(number)) NA_character_ else number
 }
 
+# Author metadata the DOI registries get wrong, keyed by lower-case DOI, with
+# names written "Family, Given". Crossref splits some compound names at the
+# wrong space, so AUTHOR_NAME_FIXES maps the registered family name to the
+# corrected name. figshare registers only the uploader, so AUTHOR_LISTS gives
+# those posters the author list printed on the poster itself.
+AUTHOR_NAME_FIXES <- list(
+  "10.1016/j.envint.2023.107856" = c(
+    "Ramón González" = "González, Juan Ramón",
+    "Lun Yuan" = "Yuan, Wen Lun"
+  )
+)
+
+HELIX_EDC_POSTER <- c(
+  "Fabbri, Lorenzo",
+  "Garlantezec, Ronan",
+  "Thomsen, Cathrine",
+  "Wright, John",
+  "Slama, Remy",
+  "Heude, Barbara",
+  "Grazuleviciene, Regina",
+  "Chatzi, Leda",
+  "Lau, Chung-Ho E",
+  "Siskos, Alexandros P",
+  "Keun, Hector",
+  "Casas, Maribel",
+  "Vrijheid, Martine",
+  "Maitre, Lea"
+)
+
+AUTHOR_LISTS <- list(
+  # EURION Cluster Annual Meeting 2022
+  "10.6084/m9.figshare.18888155.v1" = HELIX_EDC_POSTER,
+  # PPTOX-VII 2022
+  "10.6084/m9.figshare.17708729.v2" = HELIX_EDC_POSTER,
+  # PASC 2017
+  "10.6084/m9.figshare.17708726.v3" = c(
+    "Fabbri, Lorenzo",
+    "Ummadisingu, Avinash",
+    "Dutta, Ritabrata",
+    "Janalik, Radim",
+    "Mira, Antonietta",
+    "Schenk, Olaf",
+    "Schoengens, Marcel"
+  )
+)
+
+#' Split "Family, Given" names into a given/family data frame
+split_names <- function(x) {
+  parts <- str_split_fixed(x, ", ", 2)
+  data.frame(given = parts[, 2], family = parts[, 1])
+}
+
+#' Apply AUTHOR_NAME_FIXES for `doi` to a given/family author data frame
+fix_author_names <- function(au, doi) {
+  fixes <- AUTHOR_NAME_FIXES[[tolower(doi)]]
+  if (is.null(au) || is.null(fixes)) {
+    return(au)
+  }
+  hit <- au$family %in% names(fixes)
+  fixed <- split_names(fixes[au$family[hit]])
+  au$given[hit] <- fixed$given
+  au$family[hit] <- fixed$family
+  au
+}
+
 #' Author list for a registered DOI, or NULL when it cannot be trusted
 #'
 #' Uses doi.org content negotiation, which covers DataCite DOIs (figshare) as
-#' well as Crossref ones. A figshare record names only its uploader, so a list
-#' with fewer than two authors is treated as unknown rather than printed as
-#' sole authorship.
+#' well as Crossref ones. A DOI in AUTHOR_LISTS takes its list from there. Any
+#' other figshare record names only its uploader, so a list with fewer than two
+#' authors is treated as unknown rather than printed as sole authorship.
 doi_authors <- function(doi) {
+  listed <- AUTHOR_LISTS[[tolower(doi)]]
+  if (!is.null(listed)) {
+    return(split_names(listed))
+  }
   resp <- httr2::request(paste0("https://doi.org/", doi)) |>
     httr2::req_headers(Accept = "application/vnd.citationstyles.csl+json") |>
     httr2::req_retry(max_tries = 3) |>
@@ -425,7 +495,7 @@ doi_authors <- function(doi) {
   if (length(au) < 2) {
     return(NULL)
   }
-  data.frame(
+  au <- data.frame(
     given = vapply(au, function(a) a$given %||% "", character(1)),
     family = vapply(
       au,
@@ -433,6 +503,7 @@ doi_authors <- function(doi) {
       character(1)
     )
   )
+  fix_author_names(au, doi)
 }
 
 #' Render publications list enriched with CrossRef metadata
@@ -489,7 +560,7 @@ render_publications <- function(
       authors <- ""
       if ("author" %in% names(row) && !is.null(row$author[[1]])) {
         authors <- format_author_list(
-          row$author[[1]],
+          fix_author_names(row$author[[1]], row$doi),
           max_authors,
           highlight_name
         )

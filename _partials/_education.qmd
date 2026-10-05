@@ -10,7 +10,7 @@ edu_details <- list(
   "16645010" = paste(
     "Thesis: Early Life Exposure to Environmental Chemicals and",
     "Neurodevelopment through Childhood and Adolescence.",
-    "Supervisor: Prof. Martine Vrijheid.",
+    "Supervisors: Prof. Martine Vrijheid and Dr. Léa Maitre.",
     "Grade: Sobresaliente cum laude."
   ),
   # M.Sc. in Quantitative and Computational Biology, Trento
