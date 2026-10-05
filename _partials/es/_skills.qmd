@@ -6,4 +6,4 @@
 | Programación | R, Python, Bash, MATLAB, C |
 | Lenguajes de marcado | LaTeX, Quarto/RMarkdown |
 | Herramientas | git, SLURM, computación científica de altas prestaciones |
-| Métodos | inferencia causal (métodos g, controles negativos, emulación de ensayos clínicos, aleatorización mendeliana), análisis longitudinal y de panel, análisis de supervivencia, integración multiómica |
+| Métodos | inferencia causal (métodos g, controles negativos, emulación de ensayos, aleatorización mendeliana), análisis longitudinal/de panel, análisis de supervivencia, integración multiómica |

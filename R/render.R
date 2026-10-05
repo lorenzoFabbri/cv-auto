@@ -92,6 +92,7 @@ type_label <- function(type) {
 # nolint start: line_length_linter.
 ROLE_LABELS <- list(
   en = c(
+    "Máster universitario en Análisis de las Desigualdades Sociales" = "Master's Degree in the Analysis of Social Inequalities",
     "Máster universitario de Análisis Económico" = "Master's Degree in Economic Analysis",
     "Máster de Formación Permanente en Salud Pública" = "Lifelong Learning Master's in Public Health",
     "Diploma de Experto Universitario en Métodos Avanzados de Estadística Aplicada" = "University Expert Diploma in Advanced Methods of Applied Statistics"
@@ -111,6 +112,7 @@ ROLE_LABELS <- list(
     "Bachelor's thesis" = "Trabajo de fin de grado",
     "Student Tuition Waiver" = "Exención de matrícula para estudiantes",
     "SNRN Best Abstract Award (Student Researchers)" = "Premio SNRN al mejor resumen (categoría de estudiantes)",
+    "Juan de la Cierva Postdoctoral Fellowship" = "Ayuda Juan de la Cierva",
     "Erasmus+ Traineeship Programme Scholarship" = "Beca del programa Erasmus+ Prácticas",
     "Faculty of Informatics Scholarship" = "Beca de la Facultad de Informática"
   )
