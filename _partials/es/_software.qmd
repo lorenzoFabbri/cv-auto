@@ -1,9 +1,20 @@
 ## Software
 
-**etverse: ecosistema modular de R para inferencia causal transparente** [[github.com/etverse]](https://github.com/etverse)\
-Software | En desarrollo\
-Incluye: **causatr** (estimación de efectos causales), **negatr** (análisis de controles negativos), **matchatr** (análisis de estudios de casos y controles emparejados y de casos y cohorte) y **survatr** (análisis de supervivencia).
-
 ```{r}
+etverse <- data.table(
+  title = "etverse: ecosistema modular de R para inferencia causal transparente",
+  url = "https://github.com/etverse",
+  type = "software",
+  journal = "En desarrollo",
+  publication_date = NA_character_,
+  note = paste(
+    "Incluye: **causatr** (estimación de efectos causales), **negatr**",
+    "(análisis de controles negativos), **matchatr** (análisis de estudios de",
+    "casos y controles emparejados y de casos y cohorte) y **survatr**",
+    "(análisis de supervivencia)."
+  )
+)
+render_talks(etverse)
+cat("\n")
 render_talks(software)
 ```

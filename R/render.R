@@ -102,7 +102,7 @@ ROLE_LABELS <- list(
     "Predoctoral Researcher" = "Investigador predoctoral",
     "Student Research Assistant" = "Asistente de investigación (estudiante)",
     "PG Certificate in Public Health" = "Certificado de Posgrado en Salud Pública",
-    "Graduate Certificate in Theoretical Statistics and Probability" = "Graduate Certificate en Estadística Teórica y Probabilidad (nivel de grado)",
+    "Graduate Certificate in Theoretical Statistics and Probability" = "Certificado universitario en Estadística Teórica y Probabilidad (nivel de grado)",
     "PhD in Biomedicine" = "Doctorado en Biomedicina",
     "M.Sc. in Quantitative and Computational Biology" = "Máster en Biología Cuantitativa y Computacional",
     "M.Sc. Student in Computational Science" = "Estudiante de Máster en Ciencia Computacional",
@@ -637,7 +637,12 @@ render_publications <- function(
 
 #' Render talks, conference papers, posters, or software from ORCID works
 #'
-#' @param works_dt       data.table filtered from `orcid_works()`.
+#' Hand-written entries go through here too, so every entry shares one layout
+#' and link label; they may leave `publication_date` empty and add a `note`
+#' column, printed as a final line.
+#'
+#' @param works_dt       data.table filtered from `orcid_works()`, or built
+#'   by hand with the same columns.
 #' @param number         Logical; prefix each entry with a number.
 #' @param authors        Logical; add the author list from the DOI metadata,
 #'   so co-authored contributions do not read as one's own presentations.
@@ -689,8 +694,18 @@ render_talks <- function(
         }
       }
 
-      conf_str <- paste(c(if (nchar(conf) > 0) conf, year), collapse = ", ")
-      glue("**{title}**{url_str}{BR}\n{author_line}{label} | {conf_str}\n")
+      conf_str <- paste(
+        c(if (nchar(conf) > 0) conf, if (!is.na(year) && nchar(year) > 0) year),
+        collapse = ", "
+      )
+      note_line <- if (!is.null(row$note) && !is.na(row$note)) {
+        paste0(BR, "\n", row$note)
+      } else {
+        ""
+      }
+      glue(
+        "**{title}**{url_str}{BR}\n{author_line}{label} | {conf_str}{note_line}\n"
+      )
     },
     character(1)
   )
