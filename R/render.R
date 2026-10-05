@@ -111,7 +111,6 @@ ROLE_LABELS <- list(
     "Bachelor's thesis" = "Trabajo de fin de grado",
     "Student Tuition Waiver" = "Exención de matrícula para estudiantes",
     "SNRN Best Abstract Award (Student Researchers)" = "Premio SNRN al mejor resumen (categoría de estudiantes)",
-    "Outstanding Abstract by a Student" = "Premio SNRN al mejor resumen (categoría de estudiantes)",
     "Erasmus+ Traineeship Programme Scholarship" = "Beca del programa Erasmus+ Prácticas",
     "Faculty of Informatics Scholarship" = "Beca de la Facultad de Informática"
   )
