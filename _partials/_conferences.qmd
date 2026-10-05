@@ -3,12 +3,12 @@
 ```{r}
 if (nrow(conference_papers) > 0) {
   cat("### Contributed Talks\n\n")
-  render_talks(conference_papers, number = TRUE)
+  render_talks(conference_papers, number = TRUE, authors = TRUE, max_authors = 6)
   cat("\n\n")
 }
 if (nrow(posters) > 0) {
   cat("### Posters\n\n")
-  render_talks(posters, number = TRUE)
+  render_talks(posters, number = TRUE, authors = TRUE, max_authors = 6)
   cat("\n\n")
 }
 ```

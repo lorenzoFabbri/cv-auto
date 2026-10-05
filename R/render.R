@@ -410,6 +410,31 @@ crossref_article_number <- function(doi) {
   if (is.null(number)) NA_character_ else number
 }
 
+#' Author list for a registered DOI, or NULL when it cannot be trusted
+#'
+#' Uses doi.org content negotiation, which covers DataCite DOIs (figshare) as
+#' well as Crossref ones. A figshare record names only its uploader, so a list
+#' with fewer than two authors is treated as unknown rather than printed as
+#' sole authorship.
+doi_authors <- function(doi) {
+  resp <- httr2::request(paste0("https://doi.org/", doi)) |>
+    httr2::req_headers(Accept = "application/vnd.citationstyles.csl+json") |>
+    httr2::req_retry(max_tries = 3) |>
+    httr2::req_perform()
+  au <- httr2::resp_body_json(resp)$author
+  if (length(au) < 2) {
+    return(NULL)
+  }
+  data.frame(
+    given = vapply(au, function(a) a$given %||% "", character(1)),
+    family = vapply(
+      au,
+      function(a) a$family %||% a$literal %||% "",
+      character(1)
+    )
+  )
+}
+
 #' Render publications list enriched with CrossRef metadata
 #'
 #' @param works_dt       data.table of works from `orcid_works()`.
@@ -540,9 +565,19 @@ render_publications <- function(
 
 #' Render talks, conference papers, posters, or software from ORCID works
 #'
-#' @param works_dt data.table filtered from `orcid_works()`.
-#' @param number   Logical; prefix each entry with a number.
-render_talks <- function(works_dt, number = FALSE) {
+#' @param works_dt       data.table filtered from `orcid_works()`.
+#' @param number         Logical; prefix each entry with a number.
+#' @param authors        Logical; add the author list from the DOI metadata,
+#'   so co-authored contributions do not read as one's own presentations.
+#' @param highlight_name Surname to bold in author lists.
+#' @param max_authors    Shorten author lists longer than this.
+render_talks <- function(
+  works_dt,
+  number = FALSE,
+  authors = FALSE,
+  highlight_name = "Fabbri",
+  max_authors = Inf
+) {
   if (is.null(works_dt) || nrow(works_dt) == 0) {
     return(invisible(NULL))
   }
@@ -568,8 +603,22 @@ render_talks <- function(works_dt, number = FALSE) {
         ""
       }
 
+      author_line <- ""
+      if (authors && !is.na(row$doi) && row$doi != "") {
+        au <- doi_authors(row$doi)
+        if (!is.null(au)) {
+          au_str <- format_author_list(au, max_authors, highlight_name)
+          # paste0, not glue: glue trims the trailing newline after BR
+          author_line <- paste0(
+            highlight_author(au_str, highlight_name),
+            BR,
+            "\n"
+          )
+        }
+      }
+
       conf_str <- paste(c(if (nchar(conf) > 0) conf, year), collapse = ", ")
-      glue("**{title}**{url_str}{BR}\n{label} | {conf_str}\n")
+      glue("**{title}**{url_str}{BR}\n{author_line}{label} | {conf_str}\n")
     },
     character(1)
   )

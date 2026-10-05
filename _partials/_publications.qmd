@@ -8,5 +8,4 @@ render_publications(journal_articles, highlight_name = "Fabbri")
 
 ### Working Papers
 
-- Clonal evolution and genomic divergence in penile squamous cell carcinoma:
-  insights from matched premalignant, normal, and tumor tissues.
+- Clonal evolution and genomic divergence in penile squamous cell carcinoma: insights from matched premalignant, normal, and tumor tissues. *In preparation.*
