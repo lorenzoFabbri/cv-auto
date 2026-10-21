@@ -304,8 +304,10 @@ render_education <- function(data, details = NULL) {
 
 #' Render funding / grants records
 #'
-#' @param data data.table returned by `orcid_funding()`.
-render_fundings <- function(data) {
+#' @param data    data.table returned by `orcid_funding()`.
+#' @param details Named list of strings keyed by ORCID put_code, appended to
+#'   the funder line (e.g. a grant reference).
+render_fundings <- function(data, details = NULL) {
   if (is.null(data) || nrow(data) == 0) {
     return(invisible(NULL))
   }
@@ -328,9 +330,14 @@ render_fundings <- function(data) {
         )
       }
 
+      org_str <- if (nzchar(org)) glue("*{org}*") else ""
+      if (!is.null(details) && row$put_code %in% names(details)) {
+        org_str <- paste(c(org_str, details[[row$put_code]]), collapse = " | ")
+      }
+
       glue(
         "**{title}**{amount_str} {HFILL} {HTML_R}{dates}{HTML_R_END}{BR}\n",
-        "*{org}*\n"
+        "{org_str}\n"
       )
     },
     character(1)
@@ -365,10 +372,12 @@ format_author_list <- function(
     return("")
   }
 
+  # Crossref registers some middle initials as a single token ("Rosemary RC"),
+  # so a two- or three-capital word counts as initials in full.
   names_vec <- mapply(
     function(given, family) {
       initials <- paste0(
-        str_extract_all(given, "\\b[[:upper:]]")[[1]],
+        str_extract_all(given, "\\b[[:upper:]]{2,3}\\b|\\b[[:upper:]]")[[1]],
         collapse = ""
       )
       if (nzchar(initials)) paste0(family, " ", initials) else family

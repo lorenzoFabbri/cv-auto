@@ -1,5 +1,10 @@
 ## Grants and Fellowships
 
 ```{r}
-render_fundings(cv_data$fundings)
+fund_details <- list(
+  # Juan de la Cierva — Agencia Estatal de Investigación
+  "2629771" = "Ref. JDC2025-058904-I"
+)
+
+render_fundings(cv_data$fundings, details = fund_details)
 ```

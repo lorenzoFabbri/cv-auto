@@ -19,7 +19,7 @@ emp_details <- list(
   # Predoctoral Researcher — Childhood and Environment
   "15100551" = paste(
     "Early-life exposure to environmental chemicals and child",
-    "neurodevelopment (HELIX, ATHLETE cohorts): causal inference,",
+    "neurodevelopment (HELIX cohort, ATHLETE project): causal inference,",
     "evidence triangulation, and multi-omic integration.",
     "Supervisor: Prof. Martine Vrijheid."
   )

@@ -19,7 +19,7 @@ emp_details <- list(
   # Doctorado — Childhood and Environment
   "15100551" = paste(
     "Exposición temprana a contaminantes ambientales y neurodesarrollo",
-    "infantil (cohortes HELIX, ATHLETE): inferencia causal,",
+    "infantil (cohorte HELIX, proyecto ATHLETE): inferencia causal,",
     "triangulación de la evidencia e integración multiómica.",
     "Supervisora: Prof.ª Martine Vrijheid."
   )
