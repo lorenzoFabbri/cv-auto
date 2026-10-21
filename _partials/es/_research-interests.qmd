@@ -1,3 +1,3 @@
 ## Intereses de investigación
 
-Epidemiología del cáncer, inferencia causal y triangulación de la evidencia.
+Farmacoepidemiología causal del cáncer: el efecto de los medicamentos sobre el riesgo de cáncer, estimado mediante la emulación de ensayos clínicos con datos de práctica clínica habitual, con cada resultado desglosado por grupos sociales.

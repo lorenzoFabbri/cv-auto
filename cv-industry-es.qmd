@@ -1,7 +1,7 @@
 ---
 title: "Lorenzo Fabbri"
 lang: es
-cv-tagline: "Investigador cuantitativo · Inferencia causal y epidemiología aplicada"
+cv-tagline: "Epidemiólogo · Inferencia causal y farmacoepidemiología"
 cv-email: "lorenzo.fabbri92sm@gmail.com"
 cv-location: "Madrid, España"
 cv-website: "lorenzofabbri.github.io/epilorenzo"

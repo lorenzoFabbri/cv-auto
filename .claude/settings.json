@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(make all)",
+      "Bash(make html)",
+      "Bash(make pdf)",
+      "Bash(make docx)",
+      "Bash(make lint)",
+      "Bash(make format)",
+      "Bash(make clean)",
+      "Bash(quarto render)",
+      "Bash(air format R/)",
+      "Bash(air format --check R/)",
+      "Bash(pdftotext -layout docs/*.pdf -)",
+      "Bash(python3 -m json.tool)",
+      "Bash(curl -s -H \"Accept: application/json\" https://pub.orcid.org/v3.0/0000-0003-3031-322X/record)",
+      "WebFetch(domain:lorenzofabbri.github.io)",
+      "WebFetch(domain:pub.orcid.org)"
+    ]
+  }
+}

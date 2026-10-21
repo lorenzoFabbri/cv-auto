@@ -5,8 +5,9 @@ emp_details <- list(
   # CNIO — Postdoctoral Researcher
   "36898188" = paste(
     "Genetic and Molecular Epidemiology Group.",
-    "Causal inference and evidence triangulation applied to",
-    "pancreatic and bladder cancer.",
+    "Causal pharmacoepidemiology: target-trial emulation of medicines",
+    "and cancer risk on primary-care records and the group's case-control",
+    "studies of pancreatic and bladder cancer.",
     "Supervisor: Dr. Núria Malats."
   ),
   # ISGlobal — Postdoctoral Researcher (Rakislova Lab)

@@ -6,9 +6,11 @@
 emp_details <- list(
   # CNIO — Investigador Postdoctoral
   "36898188" = paste(
-    "Aplicación de la inferencia causal y la triangulación de la evidencia a",
-    "la investigación del cáncer de páncreas y de vejiga (Grupo de",
-    "Epidemiología Genética y Molecular)."
+    "Diseño de emulaciones de ensayos clínicos sobre medicamentos y riesgo",
+    "de cáncer con registros de atención primaria y estudios de casos y",
+    "controles (cáncer de páncreas y de vejiga): protocolos, planes de",
+    "análisis estadístico, solicitudes de acceso a datos y flujos de análisis",
+    "en R (Grupo de Epidemiología Genética y Molecular)."
   ),
   # ISGlobal — Investigador Postdoctoral (Rakislova Lab)
   "31778472" = paste(

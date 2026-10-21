@@ -114,7 +114,8 @@ ROLE_LABELS <- list(
     "SNRN Best Abstract Award (Student Researchers)" = "Premio SNRN al mejor resumen (categoría de estudiantes)",
     "Juan de la Cierva Postdoctoral Fellowship" = "Ayuda Juan de la Cierva",
     "Erasmus+ Traineeship Programme Scholarship" = "Beca del programa Erasmus+ Prácticas",
-    "Faculty of Informatics Scholarship" = "Beca de la Facultad de Informática"
+    "Faculty of Informatics Scholarship" = "Beca de la Facultad de Informática",
+    "Cancer Working Group" = "Grupo de Trabajo de Cáncer"
   )
 )
 # nolint end

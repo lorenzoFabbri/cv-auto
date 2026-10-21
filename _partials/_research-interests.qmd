@@ -1,3 +1,3 @@
 ## Research Interests
 
-Cancer epidemiology, causal inference, and evidence triangulation.
+Causal pharmacoepidemiology of cancer: what medicines do to the risk of cancer, estimated by emulating target trials on routine health records, with each result reported across social groups.

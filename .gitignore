@@ -27,7 +27,9 @@ docs/
 # OS
 .DS_Store
 Thumbs.db
-.claude/
+
+# Claude Code: personal permissions stay local
+.claude/settings.local.json
 
 /.quarto/
 **/*.quarto_ipynb
