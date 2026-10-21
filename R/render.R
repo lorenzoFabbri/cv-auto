@@ -95,7 +95,9 @@ ROLE_LABELS <- list(
     "Máster universitario en Análisis de las Desigualdades Sociales" = "Master's Degree in the Analysis of Social Inequalities",
     "Máster universitario de Análisis Económico" = "Master's Degree in Economic Analysis",
     "Máster de Formación Permanente en Salud Pública" = "Lifelong Learning Master's in Public Health",
-    "Diploma de Experto Universitario en Métodos Avanzados de Estadística Aplicada" = "University Expert Diploma in Advanced Methods of Applied Statistics"
+    "Diploma de Experto Universitario en Métodos Avanzados de Estadística Aplicada" = "University Expert Diploma in Advanced Methods of Applied Statistics",
+    "Metodología de la investigación sanitaria I y II" = "Health Research Methodology I and II",
+    "Español intermedio B1" = "Intermediate Spanish (B1)"
   ),
   es = c(
     "Postdoctoral Fellow" = "Investigador postdoctoral",

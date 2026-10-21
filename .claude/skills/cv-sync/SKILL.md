@@ -47,7 +47,7 @@ jq -r '[.. | objects | .["put-code"]? // empty] | .[] | tostring' "$S/orcid.json
 grep -rhoE '"[0-9]{6,9}"' _partials | tr -d '"' | sort -u | comm -23 - "$S/codes.txt"   # detail keys with no record
 ```
 
-A title with no label matters when it is a role, degree, award or working-group name that the Spanish CV should translate; course titles and the proper names of awards, networks and membership categories stay as ORCID has them. Beyond the scripted checks, compare by reading:
+A title with no label matters when it is a role, degree, award or working-group name that the Spanish CV should translate; English course titles and the proper names of awards, networks and membership categories stay as ORCID has them, while a course titled in Spanish gets an English label. Beyond the scripted checks, compare by reading:
 
 - dates that disagree between ORCID, the vault, the CVN and the website;
 - programmes whose start date in the vault has passed but which are not on ORCID;

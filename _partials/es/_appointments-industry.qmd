@@ -14,18 +14,16 @@ emp_details <- list(
   ),
   # ISGlobal — Investigador Postdoctoral (Rakislova Lab)
   "31778472" = paste(
-    "Desarrollo de flujos de análisis reproducibles para datos de",
-    "secuenciación del exoma completo (Bash, R, SLURM) en genómica del cáncer:",
-    "control de calidad, alineamiento, detección de variantes somáticas",
-    "combinando varios algoritmos y análisis de alteraciones en el número de",
-    "copias; desarrollo del paquete de R squamr."
+    "Flujos reproducibles de secuenciación del exoma en cáncer (Bash, R,",
+    "SLURM): control de calidad, alineamiento, detección de variantes",
+    "somáticas con varios algoritmos y número de copias; autor del paquete de",
+    "R squamr."
   ),
   # Doctorado — Childhood and Environment
   "15100551" = paste(
-    "Desarrollo de flujos de análisis reproducibles de inferencia causal y",
-    "multiómica en R y Python en entornos de computación de alto rendimiento",
-    "(fórmula g paramétrica, análisis de redes); publicación del código abierto",
-    "de tres artículos como primer autor."
+    "Flujos reproducibles de inferencia causal y multiómica en R y Python en",
+    "computación de alto rendimiento (fórmula g paramétrica, análisis de",
+    "redes); código abierto de tres artículos como primer autor."
   )
 )
 
