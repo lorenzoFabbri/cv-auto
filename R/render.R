@@ -103,7 +103,6 @@ ROLE_LABELS <- list(
     "Postdoctoral Fellow" = "Investigador postdoctoral",
     "Predoctoral Researcher" = "Investigador predoctoral",
     "Student Research Assistant" = "Asistente de investigación (estudiante)",
-    "PG Certificate in Public Health" = "Certificado de Posgrado en Salud Pública",
     "Graduate Certificate in Theoretical Statistics and Probability" = "Certificado universitario en Estadística Teórica y Probabilidad (nivel de grado)",
     "PhD in Biomedicine" = "Doctorado en Biomedicina",
     "M.Sc. in Quantitative and Computational Biology" = "Máster en Biología Cuantitativa y Computacional",

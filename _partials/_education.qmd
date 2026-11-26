@@ -2,8 +2,6 @@
 
 ```{r}
 edu_details <- list(
-  # PG Certificate in Public Health, LSHTM (grade points 0-5, pass from 2)
-  "26799263" = "Basic Epidemiology (PHM101): grade 4/5.",
   # Graduate Certificate, Open University
   "23612750" = "Mathematical Statistics (M347): 91/100 with Distinction.",
   # PhD in Biomedicine, UPF

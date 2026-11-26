@@ -1,5 +1,9 @@
 ## Continuing Education
 
 ```{r}
-render_affiliations(cv_data$qualifications)
+qual_details <- list(
+  # Basic Epidemiology (PHM101), LSHTM (grade points 0-5, pass from 2)
+  "40900071" = "Grade 4/5."
+)
+render_affiliations(cv_data$qualifications, details = qual_details)
 ```

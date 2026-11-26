@@ -1,6 +1,10 @@
 ## Formación continua
 
 ```{r}
+qual_details <- list(
+  # Basic Epidemiology (PHM101), LSHTM (grade points 0-5, pass from 2)
+  "40900071" = "Calificación: 4/5."
+)
 # Industry CVs list courses from 2018 on, which keeps them to two pages.
-render_affiliations(cv_data$qualifications[as.integer(substr(start_date, 1, 4)) >= 2018])
+render_affiliations(cv_data$qualifications[as.integer(substr(start_date, 1, 4)) >= 2018], details = qual_details)
 ```
